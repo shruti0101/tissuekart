@@ -1,6 +1,19 @@
-/** @type {import('next').NextConfig} */
+/**** @type {import('next').NextConfig} ****/
 const nextConfig = {
-  /* config options here */
+
+
+  images: {
+
+    unoptimized: true,
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'ik.imagekit.io',
+        pathname: '/**',
+      },
+    ],
+  },
+  reactStrictMode: true,
 };
 
 export default nextConfig;
