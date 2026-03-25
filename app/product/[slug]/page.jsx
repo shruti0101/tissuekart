@@ -6,33 +6,21 @@ import Image from "next/image";
 import { useCartStore } from "@/components/store/cartStore"
 import {  Heart } from "lucide-react"
 import toast from "react-hot-toast"
+import { useParams } from "next/navigation";
+import { categories } from "@/Data";
 export default function ProductPage() {
-  const product = {
-    id:1,
-    name: "Toilet Roll 4x1",
-    category: "Toilet Roll",
-    price: 122,
-    mrp: 449,
-    discount: 73,
-    ply: 3,
-    size: "10 × 10 cm",
-    set: 1,
-    pieces: "4 (Pack of 4)",
-    description: `
-    <div>
-    <h3 class="font-semibold text-lg mb-3">Product Overview</h3>
-    <ul class="list-disc pl-5 space-y-2">
-    <li>The Premium Toilet Roll 4×1 pack delivers superior comfort, absorbency, and hygiene.</li>
-    <li>Crafted with three layers of ultra-soft material for a smooth and gentle experience.</li>
-    <li>Each pack contains four rolls — ideal for households, offices, hotels, and public washrooms.</li>
-    <li>Compact 10×10 cm sizing fits all standard toilet roll holders.</li>
-    <li>Made using high-quality virgin paper, ensuring exceptional softness and durability.</li>
-    <li>Supplied by Matrix Tissue’s, a renowned Toilet Roll Supplier offering premium hygiene solutions.</li>
-    </ul>
-    </div>
-    `,
-    images: ["/products/p1.webp", "/products/p2.webp", "/products/p3.webp"],
-  };
+ 
+const { slug } = useParams();
+
+  // find product inside categories
+  const product = categories
+    .flatMap((cat) => cat.products)
+    .find((p) => p.slug === slug);
+
+  if (!product) {
+    return <div className="text-center py-20">Product not found</div>;
+  }
+
 
   
   const [quantity, setQuantity] = useState(1);
@@ -72,11 +60,12 @@ const handleWishlist = () => {
   const [activeImage, setActiveImage] = useState(product.images[0]);
   const [tab, setTab] = useState("description");
 
+
+const wishlist = useWishlistStore((state) => state.wishlist)
 const addWishlist = useWishlistStore((state) => state.addToWishlist)
 const removeWishlist = useWishlistStore((state) => state.removeFromWishlist)
-const isInWishlist = useWishlistStore((state) => state.isInWishlist)
 
-const inWishlist = isInWishlist(product.id)
+const inWishlist = wishlist.some((item) => item.id === product.id)
 
 
 
@@ -204,18 +193,14 @@ const showToast = (message) => {
             >
               ADD TO CART
             </button>
-<button
-  onClick={handleWishlist}
-  className="flex items-center gap-2 text-red-500"
->
-  <Heart
-    size={22}
-    fill={inWishlist ? "red" : "none"}
-    stroke="red"
-  />
+        <button
+              onClick={handleWishlist}
+              className="flex items-center text-lg gap-2"
+            >
+              <Heart size={25} fill={inWishlist ? "red" : "none"} />
+              Add Wishlist
+            </button>
 
-  {inWishlist ? "Remove Wishlist" : "Add to Wishlist"}
-</button>
           </div>
         </div>
       </div>

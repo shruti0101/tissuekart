@@ -2,42 +2,22 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import { categories } from "@/Data";
+import { useParams } from "next/navigation";
 
-const categories = [
-  "Bamboo Tissue (Available Soon)",
-  "Butter Paper Roll",
-  "Cake Box",
-  "Face Tissue",
-  "Kitchen Towel",
-  "Paper Napkin",
-  "Toilet Roll",
-];
 
-const products = [
-  {
-    slug: "paper-napkin",
-    
-    id: 1,
-    name: "Paper Napkin Pack of 100",
-    price: "₹111.00",
-    oldPrice: "₹327.00",
-    discount: "-66%",
-    img: "/napkin1.webp",
-  },
- {
-    slug: "toilet-roll",
-    
-     id: 2,
-    name: "Toilet Roll 4x1",
-    price: "₹111.00",
-    oldPrice: "₹327.00",
-    discount: "-66%",
-    img: "/napkin1.webp",
-  },
-
-];
 
 export default function CategoryPage() {
+
+    const params = useParams()
+
+    const slug = params.slug
+  // find category
+  const category = categories.find((cat) => cat.slug === slug);
+
+  // get products from that category
+  const products = category?.products || [];
+
   return (
 
     <section  className=" bg-[#F3F3F3   ]">
@@ -67,10 +47,10 @@ export default function CategoryPage() {
             {categories.map((cat, i) => (
               <li key={i}>
                 <Link
-                  href="#"
+                  href={`categories${cat}`}
                   className="hover:text-teal-700 transition"
                 >
-                  {cat}
+                  {cat.name}
                 </Link>
               </li>
             ))}

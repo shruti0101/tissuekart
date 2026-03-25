@@ -79,10 +79,11 @@ export default function WishlistPage() {
 
                 <div className="relative">
 
-                  <img
-                    src={item.img}
-                    className="w-full h-[220px] object-contain p-6"
-                  />
+              <img
+                src={item.images[0]}
+                className=" rounded-lg object-cover border"
+              />
+
 
                   <button
                     onClick={() => remove(item.id)}

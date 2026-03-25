@@ -1,7 +1,9 @@
 {
   "name": "tissuekart",
   "version": "0.1.0",
+  "type": "module",
   "private": true,
+
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -9,19 +11,27 @@
     "lint": "eslint",
     "export": "next export"
   },
+
   "dependencies": {
     "axios": "^1.13.4",
+    "bcryptjs": "^3.0.3",
+    "cors": "^2.8.6",
+    "dotenv": "^17.3.1",
+    "express": "^5.2.1",
     "framer-motion": "^12.37.0",
+    "jsonwebtoken": "^9.0.3",
     "lucide-react": "^0.563.0",
+    "mongoose": "^9.3.1",
     "next": "16.1.6",
     "react": "19.2.3",
-    "react-countup": "^6.5.3",
     "react-dom": "19.2.3",
+    "react-countup": "^6.5.3",
     "react-hot-toast": "^2.6.0",
     "react-toastify": "^11.0.5",
     "swiper": "^12.1.0",
     "zustand": "^5.0.11"
   },
+
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
     "eslint": "^9",

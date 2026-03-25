@@ -145,20 +145,6 @@ export default function CartDrawer() {
 
       </div>
 
-      <style jsx>{`
-        @keyframes slideIn {
-          from {
-            transform: translateX(100%);
-          }
-          to {
-            transform: translateX(0);
-          }
-        }
-
-        .animate-slideIn {
-          animation: slideIn 0.35s ease;
-        }
-      `}</style>
 
     </div>
   )
