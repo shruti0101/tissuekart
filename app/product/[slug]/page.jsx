@@ -109,7 +109,7 @@ const handleWishlist = () => {
       : 0;
 
   return (
-    <div className="max-w-7xl mx-auto px-6 py-10 font-serif">
+    <div className="w-full mx-auto px-10 py-10 font-serif">
 
       {/* Breadcrumb */}
       <div className="text-sm text-gray-500 mb-6">
@@ -120,7 +120,7 @@ const handleWishlist = () => {
 
         {/* Images */}
         <div>
-          <div className="border rounded-xl p-6 bg-gray-50">
+          <div className="shadow-sm rounded-md overflow-hidden border border-gray-300">
             <Image
               src={activeImage}
               alt={product.name}
@@ -213,7 +213,7 @@ const handleWishlist = () => {
           <div className="mt-6">
             <p className="font-medium mb-3">Quantity</p>
 
-            <div className="flex items-center gap-4">
+            <div className="flex items-center px-4 py-2 bg-gray-100 gap-4 border w-max rounded">
               <button onClick={() => setQuantity((q) => Math.max(1, q - 1))}>-</button>
               <span>{quantity}</span>
               <button onClick={() => setQuantity((q) => q + 1)}>+</button>
@@ -224,7 +224,7 @@ const handleWishlist = () => {
           <div className="flex items-center gap-6 mt-6">
             <button
               onClick={addToCart}
-              className="bg-[#129c97] px-10 py-3 rounded-lg font-semibold"
+              className="bg-[#129c97] px-40 py-3 rounded-lg font-semibold"
             >
               ADD TO CART
             </button>
@@ -234,7 +234,7 @@ const handleWishlist = () => {
               className="flex items-center text-lg gap-2"
             >
               <Heart size={25} fill={inWishlist ? "red" : "none"} />
-              Add Wishlist
+              Add To Wishlist
             </button>
           </div>
         </div>

@@ -86,7 +86,7 @@ export default function Navbar() {
         transition={{ duration: 0.35 }}
         className="bg-black/20 border-b border-gray-500 text-white"
       >
-        <div className="w-full mx-auto flex items-center justify-between px-4 md:px-8 lg:px-30 py-1">
+        <div className="w-full mx-auto h-12 flex items-center justify-between px-4 md:px-8 lg:px-30 py-1">
           <Link href="/" className="">
             <Image
               src="/logo.webp"

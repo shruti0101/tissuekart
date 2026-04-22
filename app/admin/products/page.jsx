@@ -30,8 +30,7 @@ const handleDelete = async (id) => {
 
   const token = localStorage.getItem("token");
 
-  // 🚨 DEBUG THIS
-  console.log("TOKEN:", token);
+
 
   if (!token) {
     toast.error("User not logged in ❌", { id: toastId });
@@ -118,24 +117,45 @@ const handleDelete = async (id) => {
     });
   };
 
-  // ✅ UPDATE
-  const handleUpdate = async () => {
-    const toastId = toast.loading("Updating...");
-    const token = localStorage.getItem("token");
+  //  UPDATE
+const handleUpdate = async () => {
+  const toastId = toast.loading("Updating...");
+  const token = localStorage.getItem("token");
 
-    await fetch(`/api/products/update/${editing._id}`, {
+  try {
+    const payload = {
+      ...editing,
+      category:
+        typeof editing.category === "object"
+          ? editing.category._id
+          : editing.category, // ✅ FIX
+    };
+
+    const res = await fetch(`/api/products/update/${editing._id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
-      body: JSON.stringify(editing),
+      body: JSON.stringify(payload),
     });
+
+    const data = await res.json();
+
+    if (!res.ok) {
+      toast.error(data.msg || "Update failed ❌", { id: toastId });
+      return;
+    }
 
     setEditing(null);
     fetchProducts();
-    toast.success("Updated", { id: toastId });
-  };
+
+    toast.success("Updated ✅", { id: toastId });
+  } catch (err) {
+    console.error(err);
+    toast.error("Error updating ❌", { id: toastId });
+  }
+};
 
   return (
     <div className="p-8 bg-[#F6F7FB] min-h-screen">
