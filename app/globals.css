@@ -16,4 +16,7 @@
 
 body {
   font-family: var(--font-caladea), serif;
+
+  padding-top: 140px; 
+
 }

@@ -1,48 +1,77 @@
 "use client";
-import { useWishlistStore } from "@/components/store/wishlistStore"
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
-import { useCartStore } from "@/components/store/cartStore"
-import {  Heart } from "lucide-react"
-import toast from "react-hot-toast"
+import { useCartStore } from "@/components/store/cartStore";
+import { useWishlistStore } from "@/components/store/wishlistStore";
+import { Heart } from "lucide-react";
+import toast from "react-hot-toast";
 import { useParams } from "next/navigation";
-import { categories } from "@/Data";
+import { Check } from "lucide-react";
+
 export default function ProductPage() {
- 
-const { slug } = useParams();
+  const params = useParams();
+  const slug = Array.isArray(params.slug) ? params.slug[0] : params.slug;
 
-  // find product inside categories
-  const product = categories
-    .flatMap((cat) => cat.products)
-    .find((p) => p.slug === slug);
+  const [product, setProduct] = useState(null);
+  const [loading, setLoading] = useState(true);
 
-  if (!product) {
-    return <div className="text-center py-20">Product not found</div>;
-  }
-
-
-  
   const [quantity, setQuantity] = useState(1);
+  const [activeImage, setActiveImage] = useState("/placeholder.png");
+  const [tab, setTab] = useState("description");
 
-  const increaseQty = () => {
-    setQuantity((prev) => prev + 1);
+  const addItem = useCartStore((state) => state.addToCart);
+  const wishlist = useWishlistStore((state) => state.wishlist);
+  const addWishlist = useWishlistStore((state) => state.addToWishlist);
+  const removeWishlist = useWishlistStore((state) => state.removeFromWishlist);
+
+  // ✅ Fetch product safely
+  useEffect(() => {
+    if (!slug) return;
+
+    const fetchProduct = async () => {
+      try {
+        setLoading(true);
+
+        const res = await fetch(`/api/products/${slug}`);
+
+        if (!res.ok) throw new Error("Failed to fetch");
+
+        const data = await res.json();
+
+        if (!data || !data._id) {
+          throw new Error("Invalid product");
+        }
+
+        setProduct(data);
+        setActiveImage(data.images?.[0] || "/placeholder.png");
+      } catch (err) {
+        console.error("Product fetch error:", err);
+        setProduct(null);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProduct();
+  }, [slug]);
+
+  // ✅ Reset image when product changes
+  useEffect(() => {
+    if (product?.images?.length) {
+      setActiveImage(product.images[0]);
+    }
+  }, [product]);
+
+  if (loading) return <p className="text-center py-20">Loading...</p>;
+  if (!product) return <p className="text-center py-20">Product not foundedee </p>;
+
+  const inWishlist = wishlist.some((item) => item._id === product._id);
+
+  const addToCart = () => {
+    addItem(product, quantity);
+    showToast("Added to cart 🛒");
   };
-
-  const decreaseQty = () => {
-    if (quantity > 1) setQuantity((prev) => prev - 1);
-  };
-
-const addItem = useCartStore((state) => state.addToCart)
-
-const addToCart = () => {
-  addItem(product, quantity)
-
-  showToast("Added to cart 🛒")
-}
-
-
-
 
 const handleWishlist = () => {
 
@@ -56,70 +85,57 @@ const handleWishlist = () => {
 
 }
 
-
-  const [activeImage, setActiveImage] = useState(product.images[0]);
-  const [tab, setTab] = useState("description");
-
-
-const wishlist = useWishlistStore((state) => state.wishlist)
-const addWishlist = useWishlistStore((state) => state.addToWishlist)
-const removeWishlist = useWishlistStore((state) => state.removeFromWishlist)
-
-const inWishlist = wishlist.some((item) => item.id === product.id)
-
-
-
-
-
-const showToast = (message) => {
-  toast(
-    (t) => (
-      <div className="flex items-center gap-3">
-
-        <img
-          src={product.images[0]}
-          className="w-12 h-12 rounded object-cover"
-        />
-
-        <div>
-          <p className="font-semibold">{product.name}</p>
-          <p className="text-sm text-gray-500">{message}</p>
+  const showToast = (message) => {
+    toast(
+      () => (
+        <div className="flex items-center gap-3">
+          <img
+            src={product.images?.[0] || "/placeholder.png"}
+            className="w-12 h-12 rounded object-cover"
+          />
+          <div>
+            <p className="font-semibold">{product.name}</p>
+            <p className="text-sm text-gray-500">{message}</p>
+          </div>
         </div>
+      ),
+      { duration: 2500 }
+    );
+  };
 
-      </div>
-    ),
-    {
-      duration: 2500,
-    }
-  )
-}
+  const discount =
+    product.oldPrice > 0
+      ? Math.round(((product.oldPrice - product.price) / product.oldPrice) * 100)
+      : 0;
+
   return (
-    <div className="max-w-7xl mx-auto px-6 py-10">
+    <div className="max-w-7xl mx-auto px-6 py-10 font-serif">
+
       {/* Breadcrumb */}
       <div className="text-sm text-gray-500 mb-6">
-        Home / {product.category} / {product.name}
+        Home / {product.category?.name || "Category"} / {product.name}
       </div>
 
-      {/* Top Section */}
       <div className="grid md:grid-cols-2 gap-10">
-        {/* Left Images */}
+
+        {/* Images */}
         <div>
           <div className="border rounded-xl p-6 bg-gray-50">
             <Image
               src={activeImage}
               alt={product.name}
-              width={500}
-              height={500}
-              className="mx-auto"
+              width={1500}
+              height={1000}
+              className="mx-auto object-cover"
             />
           </div>
 
           <div className="flex gap-3 mt-4">
-            {product.images.map((img, i) => (
+            {product.images?.map((img, i) => (
               <div
                 key={i}
                 onClick={() => setActiveImage(img)}
-                className="border p-1 rounded cursor-pointer hover:border-green-600"
+                className="border p-1 rounded cursor-pointer"
               >
                 <Image src={img} width={70} height={70} alt="" />
               </div>
@@ -127,80 +143,99 @@ const showToast = (message) => {
           </div>
         </div>
 
-        {/* Right Info */}
+        {/* Info */}
         <div>
-          <p className="text-gray-500 text-sm">{product.category}</p>
+          <p className="text-gray-500 text-sm">
+            {product.category?.name}
+          </p>
 
-          <h1 className="text-3xl font-semibold mt-1">{product.name}</h1>
+          <h1 className="text-3xl  font-semibold mt-1">
+            {product.name}
+          </h1>
 
-          {/* Rating */}
-          <div className="flex items-center gap-2 mt-2">
-            <span className="text-yellow-500 text-lg">★★★★★</span>
-            <span className="text-gray-500 text-sm">(reviews)</span>
-          </div>
-
-          {/* Price */}
-          <div className="flex items-center gap-4 mt-5">
-            <span className="text-3xl font-bold">₹{product.price}</span>
-
-            <span className="line-through text-gray-400">₹{product.mrp}</span>
-
-            <span className="bg-green-100 text-green-600 px-3 py-1 rounded-full text-sm">
-              {product.discount}% OFF
+   {/* RATING */}
+          <div className="flex items-center gap-2 mt-3">
+            <div className="text-yellow-500 text-sm">⭐⭐⭐⭐☆</div>
+            <span className="text-gray-400 text-sm">
+              ({product.reviewsCount} reviews)
             </span>
           </div>
 
-          <p className="text-red-500 text-sm mt-2">Inclusive of all taxes</p>
+          <div className="flex items-center gap-4 mt-5">
+            <span className="text-3xl font-bold">
+              ₹{product.price}
+            </span>
 
-          {/* Features Box */}
-          <div className="bg-[#dceae7] p-5 rounded-lg mt-6">
-            <ul className="space-y-2 text-gray-700">
-              <li>✓ Ply: {product.ply}</li>
-              <li>✓ Size: {product.size}</li>
-              <li>✓ Set Of: {product.set}</li>
-              <li>✓ Pieces per Set: {product.pieces}</li>
-            </ul>
+            {product.oldPrice > 0 && (
+              <>
+                <span className="line-through text-gray-400">
+                  ₹{product.oldPrice}
+                </span>
+
+                <span className="bg-green-100 text-green-600 px-3 py-1 rounded-full text-sm">
+                  {discount}% OFF
+                </span>
+              </>
+            )}
           </div>
+
+
+              {/* STOCK */}
+          <p className="mt-3 text-sm">
+            <span className="text-gray-500">Availability: </span>
+            <span
+              className={`font-medium ${
+                product.stock ? "text-green-600" : "text-red-500"
+              }`}
+            >
+              {product.stock ? "In Stock" : "Out of Stock"}
+            </span>
+          </p>
+
+          <p className="text-red-500 font-serif mt-2">Inclusive of all taxes</p>
+
+          {/* SHORT DESCRIPTION */}
+          <p className="mt-3 text-black text-md leading-relaxed">
+            {product.description}
+          </p>
+
+     {/* FEATURES */}
+<ul className="mt-5 font-bold space-y-1 text-lg font-serif text-black bg-[#F0FDFA] p-4 rounded">
+  {product.features?.map((f, i) => (
+    <li key={i} className="flex items-start gap-2">
+      <Check className="w-5 h-5 font-serif text-black mt-[3px]" />
+      <span>{f}</span>
+    </li>
+  ))}
+</ul>
 
           {/* Quantity */}
           <div className="mt-6">
             <p className="font-medium mb-3">Quantity</p>
 
             <div className="flex items-center gap-4">
-              <button
-                onClick={decreaseQty}
-                className="w-10 h-10 border rounded-lg text-lg hover:bg-gray-100"
-              >
-                -
-              </button>
-
-              <span className="text-lg font-medium">{quantity}</span>
-
-              <button
-                onClick={increaseQty}
-                className="w-10 h-10 border rounded-lg text-lg hover:bg-gray-100"
-              >
-                +
-              </button>
+              <button onClick={() => setQuantity((q) => Math.max(1, q - 1))}>-</button>
+              <span>{quantity}</span>
+              <button onClick={() => setQuantity((q) => q + 1)}>+</button>
             </div>
           </div>
 
-          {/* Add To Cart */}
+          {/* Actions */}
           <div className="flex items-center gap-6 mt-6">
             <button
               onClick={addToCart}
-              className="bg-[#129c97] text-black px-10 py-3 rounded-lg font-semibold hover:bg-[#246a68] transition"
+              className="bg-[#129c97] px-10 py-3 rounded-lg font-semibold"
             >
               ADD TO CART
             </button>
-        <button
+
+               <button
               onClick={handleWishlist}
               className="flex items-center text-lg gap-2"
             >
               <Heart size={25} fill={inWishlist ? "red" : "none"} />
               Add Wishlist
             </button>
-
           </div>
         </div>
       </div>
@@ -208,50 +243,37 @@ const showToast = (message) => {
       {/* Tabs */}
       <div className="mt-12">
         <div className="flex gap-10 border-b pb-3">
-          <button
-            onClick={() => setTab("description")}
-            className={`pb-2 ${
-              tab === "description"
-                ? "text-teal-600 border-b-2 border-teal-600"
-                : ""
-            }`}
-          >
-            Description
-          </button>
-
-          <button
-            onClick={() => setTab("dimension")}
-            className={`pb-2 ${
-              tab === "dimension"
-                ? "text-teal-600 border-b-2 border-teal-600"
-                : ""
-            }`}
-          >
-            Dimension
-          </button>
-
-          <button
-            onClick={() => setTab("reviews")}
-            className={`pb-2 ${
-              tab === "reviews"
-                ? "text-teal-600 border-b-2 border-teal-600"
-                : ""
-            }`}
-          >
-            Reviews 0
-          </button>
+          {["Description", "Specifications", "Reviews"].map((t) => (
+            <button
+              key={t}
+              onClick={() => setTab(t)}
+              className={tab === t ? "text-teal-600 border-b-2 border-teal-600" : ""}
+            >
+              {t}
+            </button>
+          ))}
         </div>
 
-        <div className="mt-6 text-gray-700 leading-7">
-          {tab === "description" && (
-            <div dangerouslySetInnerHTML={{ __html: product.description }} />
+        <div className="mt-6">
+          {tab === "Description" && (
+            <div
+              dangerouslySetInnerHTML={{
+                __html: product.longdescription || product.description || "",
+              }}
+            />
           )}
 
-          {tab === "dimension" && (
-            <p>Product dimension information will appear here.</p>
+          {tab === "Specifications" && (
+            <ul>
+              {product.specifications?.map((s, i) => (
+                <li key={i}>
+                  {s.key}: {s.value}
+                </li>
+              ))}
+            </ul>
           )}
 
-          {tab === "reviews" && <p>No reviews yet.</p>}
+          {tab === "Reviews" && <p>No reviews yet.</p>}
         </div>
       </div>
     </div>
