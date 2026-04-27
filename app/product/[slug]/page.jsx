@@ -109,23 +109,23 @@ const handleWishlist = () => {
       : 0;
 
   return (
-    <div className="w-full mx-auto px-10 py-10 font-serif">
+    <div className="w-full mx-auto px-15 py-10 font-serif">
 
       {/* Breadcrumb */}
       <div className="text-sm text-gray-500 mb-6">
         Home / {product.category?.name || "Category"} / {product.name}
       </div>
 
-      <div className="grid md:grid-cols-2 gap-10">
+      <div className="grid md:grid-cols-2 gap-15">
 
         {/* Images */}
         <div>
-          <div className="shadow-sm rounded-md overflow-hidden border border-gray-300">
+          <div className="shadow-sm rounded-md overflow-hidden border h-[560px] border-gray-300">
             <Image
               src={activeImage}
               alt={product.name}
-              width={1500}
-              height={1000}
+              width={1000}
+              height={800}
               className="mx-auto object-cover"
             />
           </div>
@@ -224,7 +224,7 @@ const handleWishlist = () => {
           <div className="flex items-center gap-6 mt-6">
             <button
               onClick={addToCart}
-              className="bg-[#129c97] px-40 py-3 rounded-lg font-semibold"
+              className="bg-[#129c97] px-40 py-3 rounded-lg text-white font-semibold"
             >
               ADD TO CART
             </button>

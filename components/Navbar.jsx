@@ -64,7 +64,7 @@ export default function Navbar() {
       }}
       transition={{ duration: 0.4, ease: [0.25, 0.1, 0.25, 1] }}
       style={{ willChange: "transform" }}
-      className={`w-full z-50 fixed top-0 left-0 ${
+      className={`w-full z-50 fixed top-0 left-0  ${
         scrolled
           ? "bg-black/5  shadow-lg"
           : "bg-transparent shadow-none"
@@ -84,7 +84,7 @@ export default function Navbar() {
           paddingBottom: scrolled ? 4 : 8,
         }}
         transition={{ duration: 0.35 }}
-        className="bg-black/20 border-b border-gray-500 text-white"
+        className="bg-black/20 border-b border-gray-500 text-white "
       >
         <div className="w-full mx-auto h-12 flex items-center justify-between px-4 md:px-8 lg:px-30 py-1">
           <Link href="/" className="">
@@ -172,8 +172,8 @@ export default function Navbar() {
       </motion.div>
 
       {/* ===== CATEGORY NAVBAR ===== */}
-      <div className="hidden lg:block font-serif text-white text-[18px] md:text-[20px] font-medium bg-black/30 shadow-gray-300/50 shadow-lg">
-        <div className="w-full mx-auto flex gap-6 md:gap-10 items-center px-4 md:px-8 lg:px-12 py-3 overflow-x-auto scrollbar-hide whitespace-nowrap">
+      <div className="hidden lg:block font-serif text-white text-[18px]   font-medium bg-black/30 shadow-gray-300/50 shadow-lg">
+        <div className="w-full mx-auto flex gap-6 md:gap-10 items-center justify-center px-4 md:px-8 lg:px-12 py-3 overflow-x-auto scrollbar-hide whitespace-nowrap">
           
           {categories.map((cat) => (
             <Link

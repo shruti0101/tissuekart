@@ -1,15 +1,17 @@
-// models/Order.js
-
 import mongoose from "mongoose"
 
 const OrderSchema = new mongoose.Schema({
-
-     orderId: {
+  orderId: {
     type: String,
     required: true,
     unique: true
   },
-  userId: String,
+
+  userId: {
+    type: String,
+    required: true
+  },
+
   products: [
     {
       name: String,
@@ -18,7 +20,27 @@ const OrderSchema = new mongoose.Schema({
       image: String
     }
   ],
-  total: Number,
+
+  total: {
+    type: Number,
+    required: true
+  },
+
+  // 🔐 PAYMENT DETAILS (NEW)
+  paymentId: {
+    type: String
+  },
+
+  razorpayOrderId: {
+    type: String
+  },
+
+ 
+  status: {
+    type: String,
+    enum: ["pending", "paid", "failed", "shipped", "delivered"],
+    default: "pending"
+  }
 
 }, { timestamps: true })
 
