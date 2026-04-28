@@ -6,15 +6,15 @@ export default function ReturnRefundPolicy() {
 
   return (
 
-    <section className="bg-[#f8fafc] py-20 px-6">
+    <section className="bg-[#f8fafc] py-5 md:py-20 px-6">
 
       <div className="max-w-5xl mx-auto">
 
         {/* Heading */}
-        <div className="text-center mb-16">
+        <div className="text-center mb-5 md:mb-16">
 
           <h1 className="text-4xl font-semibold mb-4">
-            Return & Refund Policy
+            Shipping & Cancellations Policy
           </h1>
 
           <p className="text-gray-500">
@@ -27,7 +27,7 @@ export default function ReturnRefundPolicy() {
         <div className="space-y-8">
 
           {/* Return Policy */}
-          <div className="bg-white p-8 rounded-xl shadow-sm border">
+          <div className="bg-white p-4 md:p-8 rounded-xl shadow-sm border">
 
             <div className="flex items-center gap-3 mb-4">
 
@@ -59,7 +59,7 @@ export default function ReturnRefundPolicy() {
 
 
           {/* Refund Policy */}
-          <div className="bg-white p-8 rounded-xl shadow-sm border">
+          <div className="bg-white p-4 md:p-8 rounded-xl shadow-sm border">
 
             <div className="flex items-center gap-3 mb-4">
 
@@ -83,7 +83,7 @@ export default function ReturnRefundPolicy() {
 
 
           {/* Cancellation Policy */}
-          <div className="bg-white p-8 rounded-xl shadow-sm border">
+          <div className="bg-white p-4 md:p-8 rounded-xl shadow-sm border">
 
             <div className="flex items-center gap-3 mb-4">
 
@@ -113,7 +113,7 @@ export default function ReturnRefundPolicy() {
 
 
           {/* Contact */}
-          <div className="bg-[#129c97] text-white p-8 rounded-xl shadow-lg">
+          <div className="bg-[#129c97] text-white p-4 md:p-8 rounded-xl shadow-lg">
 
             <h2 className="text-xl font-semibold mb-6">
               Contact Us

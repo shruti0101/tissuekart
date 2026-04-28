@@ -14,11 +14,11 @@ const Footer = () => {
           <div className="flex flex-col sm:flex-row sm:flex-wrap justify-center items-center gap-y-3 gap-x-8 text-[15px] sm:text-[17px] font-medium mb-8">
             {[
               { label: "About Us", href: "/about-us" },
-              { label: "Frequently Asked Questions", href: "https://shop.tissuekart.com/frequently-asked-questions.php" },
-              { label: "Return & Refund Policy", href: "https://shop.tissuekart.com/return-&-refund-policy.php" },
+              { label: "Frequently Asked Questions", href: "/faq" },
+              { label: "Return & Refund Policy", href: "return-refund" },
               { label: "Shipping & Cancellations", href: "/shipping-cancellation-policy" },
               { label: "Privacy Policy", href: "/privacy-policy" },
-              { label: "Terms & Conditions", href: "" },
+              { label: "Terms & Conditions", href: "/terms-conditions" },
               { label: "Contact Us", href: "/contact-us" },
               { label: "Our Blog", href: "https://shop.tissuekart.com/blogs.php" },
               { label: "Bulk Enquiry", href: "/bulk-enquiry" },
