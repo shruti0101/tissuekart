@@ -13,12 +13,16 @@ export default function Slider() {
   const nextRef = useRef(null)
 
   const slides = [
-    { id: 1, image: "/slider/1.webp", title: "Paper Napkins", subtitle: "Matrix Tissues", link: "https://shop.tissuekart.com/product.php?slug=face-tissue-silk/vintage" },
-    { id: 6, image: "/slider/2.webp", title: "Cling Film", subtitle: "Matrix Tissues", link: "https://shop.tissuekart.com/product.php?slug=papyrus-100pulls-%20classic" },
-    { id: 2, image: "/slider/3.webp", title: "Toilet Roll", subtitle: "Matrix Tissues", link: "https://shop.tissuekart.com/product.php?slug=toilet-roll-12x1" },
-    { id: 3, image: "/slider/4.webp", title: "Cling Film", subtitle: "Matrix Tissues", link: "https://shop.tissuekart.com/product.php?slug=papyrus-silk-touch" },
-    { id: 4, image: "/slider/5.webp", title: "Cling Film", subtitle: "Matrix Tissues", link: "https://shop.tissuekart.com/product.php?slug=cling-film-30m" },
-    { id: 5, image: "/slider/6.webp", title: "Cling Film", subtitle: "Matrix Tissues", link: "https://shop.tissuekart.com/product.php?slug=kitchen-towel-4ply" },
+    { id: 1, image: "/slider/1.webp", title: "Paper Napkins", subtitle: "Matrix Tissues", link: "/product/print-paper-napkins" },
+
+    { id: 6, image: "/slider/2.webp", title: "Cling Film", subtitle: "Matrix Tissues", link: "/product/cling-film-30m" },
+
+    { id: 2, image: "/slider/3.webp", title: "Toilet Roll", subtitle: "Matrix Tissues", link: "/product/toilet-roll-12x1-3-ply" },
+
+    { id: 3, image: "/slider/4.webp", title: "Cling Film", subtitle: "Matrix Tissues", link: "/product/papyrus-paper-napkin-silk-touch" },
+
+    { id: 4, image: "/slider/5.webp", title: "Cling Film", subtitle: "Matrix Tissues", link: "/product/cling-film-30m" },
+    { id: 5, image: "/slider/6.webp", title: "Cling Film", subtitle: "Matrix Tissues", link: "/product/kitchen-towel-4ply" },
   ]
 
 

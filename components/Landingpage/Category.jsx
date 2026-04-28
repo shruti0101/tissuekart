@@ -5,16 +5,17 @@ import Link from "next/link"
 export default function CategorySection() {
 
   const categories = [
-    { title: "Face Tissue", image: "/cat/1.webp", link:"https://shop.tissuekart.com/category.php?slug=face-tissue"},
+    { title: "Face Tissue", image: "/cat/1.webp", link:"/category/face-tissue"},
 
-    { title: "Paper Napkin", image: "/cat/2.webp" ,link:"https://shop.tissuekart.com/category.php?slug=paper-napkin"},
+    { title: "Paper Napkin", image: "/cat/2.webp" ,link:"/category/paper-napkin"},
 
-    { title: "Kitchen Towel", image: "/cat/3.webp",link:"https://shop.tissuekart.com/category.php?slug=kitchen-towel" },
-    { title: "Toilet Roll", image: "/cat/4.webp",link:"https://shop.tissuekart.com/category.php?slug=toilet-roll" },
+    { title: "Kitchen Towel", image: "/cat/3.webp",link:"/category/kitchen-towel" },
 
-    { title: "Butter Paper Roll", image: "/cat/5.webp" ,link:"https://shop.tissuekart.com/category.php?slug=butter-paper-roll"},
+    { title: "Toilet Roll", image: "/cat/4.webp",link:"/category/toilet-roll" },
 
-    { title: "Cake Box", image: "/cat/6.webp", link:"https://shop.tissuekart.com/category.php?slug=cake-box" },
+    { title: "Butter Paper Roll", image: "/cat/5.webp" ,link:"/category/butter-paper-roll"},
+
+    { title: "Cake Box", image: "/cat/6.webp", link:"/category/cake-box" },
   ]
 
   return (
