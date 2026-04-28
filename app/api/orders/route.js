@@ -1,94 +1,131 @@
-import { connectDB } from "@/lib/Db"
-import Order from "@/models/Order"
-import jwt from "jsonwebtoken"
-import { v4 as uuidv4 } from "uuid"
-import crypto from "crypto"
+import { connectDB } from "@/lib/Db";
+import Order from "@/models/Order";
+import jwt from "jsonwebtoken";
+import { v4 as uuidv4 } from "uuid";
+import crypto from "crypto";
+import { sendOrderEmail } from "@/lib/sendEmail"; // ✅ ADD THIS
 
-// helper to get user
+// 🔐 Get user from token
 const getUser = (req) => {
   try {
-    const auth = req.headers.get("authorization")
-    if (!auth) return null
+    const auth = req.headers.get("authorization");
+    if (!auth) return null;
 
-    const token = auth.split(" ")[1]
-    return jwt.verify(token, process.env.JWT_SECRET)
+    const token = auth.split(" ")[1];
+    return jwt.verify(token, process.env.JWT_SECRET);
   } catch (err) {
-    return null
+    return null;
   }
-}
+};
 
-
-// ✅ CREATE ORDER (WITH PAYMENT VERIFICATION)
+// ================= CREATE ORDER =================
 export async function POST(req) {
-  await connectDB()
+  await connectDB();
 
-  const user = getUser(req)
-
+  const user = getUser(req);
   if (!user) {
-    return Response.json({ msg: "Unauthorized" }, { status: 401 })
+    return Response.json({ msg: "Unauthorized" }, { status: 401 });
   }
 
-  const data = await req.json()
+  const data = await req.json();
 
   const {
     razorpay_order_id,
     razorpay_payment_id,
     razorpay_signature,
     products,
-    total
-  } = data
+    total,
+    paymentMethod,
+    name,
+    email,
+    phone,
+    address,
+    pincode,
+  } = data;
 
-  // 🔐 VERIFY PAYMENT SIGNATURE
-  const expectedSignature = crypto
-    .createHmac("sha256", process.env.RAZORPAY_KEY_SECRET)
-    .update(razorpay_order_id + "|" + razorpay_payment_id)
-    .digest("hex")
+  let paymentStatus = "pending";
 
-  if (expectedSignature !== razorpay_signature) {
-    return Response.json(
-      { msg: "Payment verification failed" },
-      { status: 400 }
-    )
+  // ================= ONLINE PAYMENT =================
+  if (paymentMethod === "razorpay") {
+    const expectedSignature = crypto
+      .createHmac("sha256", process.env.RAZORPAY_KEY_SECRET)
+      .update(razorpay_order_id + "|" + razorpay_payment_id)
+      .digest("hex");
+
+    if (expectedSignature !== razorpay_signature) {
+      return Response.json(
+        { msg: "Payment verification failed" },
+        { status: 400 }
+      );
+    }
+
+    paymentStatus = "paid";
   }
 
-  // ✅ generate order ID
-  const orderId = `MT-${uuidv4().slice(0, 8)}`
+  // ================= COD =================
+  if (paymentMethod === "cod") {
+    paymentStatus = "pending";
+  }
 
-  // ✅ SAVE ORDER ONLY AFTER PAYMENT SUCCESS
+  // ✅ Generate Order ID
+  const orderId = `MT-${uuidv4().slice(0, 8)}`;
+
+  // ✅ Save Order
   const order = await Order.create({
     orderId,
     userId: user.id,
     products,
     total,
-    paymentId: razorpay_payment_id,
-    razorpayOrderId: razorpay_order_id,
-    status: "paid"
-  })
+    paymentMethod,
+    paymentStatus,
+    paymentId: razorpay_payment_id || null,
+    razorpayOrderId: razorpay_order_id || null,
+
+    // 👇 CUSTOMER INFO (IMPORTANT)
+    name,
+    email,
+    phone,
+    address,
+    pincode,
+
+   status: paymentStatus === "paid" ? "paid" : "pending"
+  });
+
+  // ================= SEND EMAIL =================
+  try {
+    if (email) {
+      await sendOrderEmail({
+        to: email,
+        order,
+      });
+    }
+  } catch (err) {
+    console.error("Email failed:", err.message);
+  }
 
   return Response.json({
-    msg: "Payment successful, order placed",
-    order
-  })
+    msg: "Order placed successfully",
+    order,
+  });
 }
 
-
-// GET ORDERS (UNCHANGED)
+// ================= GET ORDERS =================
 export async function GET(req) {
-  await connectDB()
+  await connectDB();
 
-  const user = getUser(req)
+  const user = getUser(req);
 
   if (!user) {
-    return Response.json({ msg: "Unauthorized" }, { status: 401 })
+    return Response.json({ msg: "Unauthorized" }, { status: 401 });
   }
 
-  let orders
+  let orders;
 
   if (user.role === "admin") {
-    orders = await Order.find().sort({ createdAt: -1 })
+    orders = await Order.find().sort({ createdAt: -1 });
   } else {
-    orders = await Order.find({ userId: user.id })
+    orders = await Order.find({ userId: user.id }).sort({ createdAt: -1 });
   }
 
-  return Response.json(orders)
+  return Response.json(orders);
 }

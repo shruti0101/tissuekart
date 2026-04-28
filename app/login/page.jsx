@@ -40,7 +40,7 @@ if (data.user.role === "admin") {
 
   return (
 
- <section className="bg-white">
+ <section className="bg-white mt-10 md:mt-32" >
 
 
     <div className="h-[60vh] flex items-center justify-center ">

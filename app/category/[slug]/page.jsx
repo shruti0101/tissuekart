@@ -40,7 +40,7 @@ const addToCart = useCartStore((state) => state.addToCart);
   }, [slug]);
 
   return (
-  <section className="bg-[#F3F3F3] min-h-screen font-serif">
+  <section className="bg-[#F3F3F3] min-h-screen font-serif mt-15   md:mt-35  ">
 
   {/* Breadcrumb */}
   <div className="text-center mb-4 sm:mb-6 text-gray-600 pt-4 sm:pt-6 text-sm">
@@ -56,7 +56,7 @@ const addToCart = useCartStore((state) => state.addToCart);
   <div className="max-w-[1500px] mx-auto flex flex-col lg:flex-row gap-6 sm:gap-8 px-4 sm:px-6 items-start">
 
     {/* Sidebar */}
-    <div className="w-full lg:w-[260px] bg-white rounded-md shadow-sm p-4 sm:p-6 max-h-[520px] overflow-y-auto lg:sticky lg:top-6">
+    <div className="w-full lg:w-[260px] bg-white rounded-md shadow-sm p-4 sm:p-6 max-h-[520px] overflow-y-auto lg:sticky lg:top-36">
       <h2 className="text-xl sm:text-2xl font-serif mb-4 sm:mb-6 border-b pb-2 sm:pb-3">
         Categories
       </h2>

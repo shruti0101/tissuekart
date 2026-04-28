@@ -21,7 +21,7 @@ export default function HeroVideo() {
     <>
     
     
-    <section className="relative bg-[#F3F1F0] w-full h-[25vh]  -mt-[150px] md:h-[70vh]   xl:h-[120vh] overflow-hidden">
+    <section className="relative bg-[#F3F1F0] w-full h-[25vh]  md:h-[70vh]   xl:h-[120vh] overflow-hidden">
       
       {/* VIDEO */}
       <AnimatePresence mode="wait">

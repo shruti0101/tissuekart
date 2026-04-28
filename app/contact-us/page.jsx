@@ -64,7 +64,7 @@ export default function ContactPage() {
   };
 
   return (
-    <div className="bg-[#f8fafc] min-h-screen py-10 px-6">
+    <div className="bg-[#f8fafc] min-h-screen py-10 px-6  mt-15 md:mt-32">
 
       <div className="max-w-6xl mx-auto">
 

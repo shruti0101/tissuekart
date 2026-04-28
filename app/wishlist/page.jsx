@@ -14,7 +14,7 @@ export default function WishlistPage() {
 
   return (
 
-    <section className="bg-gray-50 min-h-screen py-16 px-6">
+    <section className="bg-gray-50 min-h-screen py-16 px-6  mt-15 md:mt-28">
 
       <div className="max-w-7xl mx-auto">
 
@@ -68,7 +68,7 @@ export default function WishlistPage() {
 
           <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
 
-            {wishlist.map((item) => (
+            {wishlist.map((item,id) => (
 
               <div
                 key={item.id}

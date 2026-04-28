@@ -1,110 +1,162 @@
-"use client"
+"use client";
 
-import { useEffect, useState } from "react"
-import { useCartStore } from "@/components/store/cartStore"
+import { useEffect, useState } from "react";
+import { useCartStore } from "@/components/store/cartStore";
+import { useRouter } from "next/navigation";
 
 export default function CheckoutPage() {
-  const { cart, totalPrice, clearCart } = useCartStore()
+  const { cart, totalPrice, clearCart } = useCartStore();
+  const router = useRouter();
 
-  const [paymentMethod, setPaymentMethod] = useState("online")
+  const [loading, setLoading] = useState(false);
+  const [paymentMethod, setPaymentMethod] = useState("online");
+
   const [form, setForm] = useState({
     name: "",
     phone: "",
     email: "",
     address: "",
-    pincode: ""
-  })
+    pincode: "",
+  });
 
-  const TOKEN_DISCOUNT = 10
-  const finalAmount = Math.max(0, totalPrice() - TOKEN_DISCOUNT)
+  const TOKEN_DISCOUNT = 10;
+  const finalAmount = Math.max(0, totalPrice() - TOKEN_DISCOUNT);
 
+  // ✅ Load Razorpay script
   useEffect(() => {
-    const script = document.createElement("script")
-    script.src = "https://checkout.razorpay.com/v1/checkout.js"
-    script.async = true
-    document.body.appendChild(script)
-  }, [])
+    const script = document.createElement("script");
+    script.src = "https://checkout.razorpay.com/v1/checkout.js";
+    script.async = true;
+    document.body.appendChild(script);
+  }, []);
 
+  // ✅ Input handler
   const handleChange = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value })
-  }
+    setForm({ ...form, [e.target.name]: e.target.value });
+  };
 
-  const handleCheckout = async () => {
-    const token = localStorage.getItem("token")
+  // ✅ Reset form
+  const resetForm = () => {
+    setForm({
+      name: "",
+      phone: "",
+      email: "",
+      address: "",
+      pincode: "",
+    });
+  };
 
-    if (paymentMethod === "cod") {
-      await fetch("/api/orders", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`
-        },
-        body: JSON.stringify({
-          products: cart,
-          total: finalAmount,
-          paymentMethod: "cod",
-          ...form
-        })
-      })
-
-      alert("Order placed with COD")
-      clearCart()
-      return
+  // ✅ Validation
+  const validate = () => {
+    if (!form.name || !form.phone || !form.address || !form.pincode) {
+      alert("Please fill all required fields");
+      return false;
     }
+    return true;
+  };
 
-    // ONLINE PAYMENT
-    const res = await fetch("/api/razorpay/order", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ amount: finalAmount })
-    })
+  // ================= MAIN CHECKOUT =================
+  const handleCheckout = async () => {
+    if (!validate()) return;
 
-    const order = await res.json()
+    const token = localStorage.getItem("token");
+    setLoading(true);
 
-    const options = {
-      key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
-      amount: order.amount,
-      currency: "INR",
-      name: "Tissue Kart",
-      order_id: order.id,
-
-      handler: async function (response) {
-        const verifyRes = await fetch("/api/orders", {
+    try {
+      // ================= COD =================
+      if (paymentMethod === "cod") {
+        const res = await fetch("/api/orders", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`
+            Authorization: `Bearer ${token}`,
           },
           body: JSON.stringify({
             products: cart,
             total: finalAmount,
-            paymentMethod: "razorpay",
+            paymentMethod: "cod",
             ...form,
-            razorpay_order_id: response.razorpay_order_id,
-            razorpay_payment_id: response.razorpay_payment_id,
-            razorpay_signature: response.razorpay_signature
-          })
-        })
+          }),
+        });
 
-        const data = await verifyRes.json()
+        const data = await res.json();
 
         if (data.order) {
-          alert("✅ Payment successful")
-          clearCart()
-        } else {
-          alert("❌ Payment failed")
-        }
-      },
+          clearCart();
+          resetForm();
 
-      theme: { color: "#05847b" }
+          router.push(`/order-success?orderId=${data.order._id}`);
+        } else {
+          alert("❌ Order failed");
+        }
+
+        setLoading(false);
+        return;
+      }
+
+      // ================= ONLINE =================
+      const res = await fetch("/api/razorpay/order", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ amount: finalAmount }),
+      });
+
+      const order = await res.json();
+
+      const options = {
+        key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
+        amount: order.amount,
+        currency: "INR",
+        name: "Tissue Kart",
+        order_id: order.id,
+
+        handler: async function (response) {
+          const verifyRes = await fetch("/api/orders", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+            body: JSON.stringify({
+              products: cart,
+              total: finalAmount,
+              paymentMethod: "razorpay",
+              ...form,
+              razorpay_order_id: response.razorpay_order_id,
+              razorpay_payment_id: response.razorpay_payment_id,
+              razorpay_signature: response.razorpay_signature,
+            }),
+          });
+
+          const data = await verifyRes.json();
+
+          if (data.order) {
+            clearCart();
+            resetForm();
+
+            router.push(`/order-success?orderId=${data.order._id}`);
+          } else {
+            alert("❌ Payment verification failed");
+          }
+        },
+
+        theme: { color: "#05847b" },
+      };
+
+      const rzp = new window.Razorpay(options);
+      rzp.open();
+    } catch (err) {
+      console.error(err);
+      alert("Something went wrong");
     }
 
-    const rzp = new window.Razorpay(options)
-    rzp.open()
-  }
+    setLoading(false);
+  };
 
   return (
-    <div className="bg-gray-50 min-h-screen py-10 px-4">
+    <div className="bg-gray-50 min-h-screen py-10 px-4 mt:10 md:mt-30">
       <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-8">
 
         {/* LEFT FORM */}
@@ -113,111 +165,77 @@ export default function CheckoutPage() {
           <h2 className="text-xl font-bold mb-4">Customer Details</h2>
 
           <div className="space-y-4">
+            <input name="name" value={form.name} onChange={handleChange} placeholder="Name"
+              className="w-full border p-3 rounded-lg" />
 
-            <input
-              name="name"
-              placeholder="Name"
-              onChange={handleChange}
-              className="w-full border border-gray-400 p-3 rounded-lg"
-            />
+            <input name="phone" value={form.phone} onChange={handleChange} placeholder="Phone"
+              className="w-full border p-3 rounded-lg" />
 
-            <input
-              name="phone"
-              placeholder="Phone"
-              onChange={handleChange}
-              className="w-full border border-gray-400 p-3 rounded-lg"
-            />
+            <input name="email" value={form.email} onChange={handleChange} placeholder="Email"
+              className="w-full border p-3 rounded-lg" />
 
-            <input
-              name="email"
-              placeholder="Email"
-              onChange={handleChange}
-              className="w-full border border-gray-400 p-3 rounded-lg"
-            />
+            <textarea name="address" value={form.address} onChange={handleChange} placeholder="Address"
+              className="w-full border p-3 rounded-lg" />
 
-            <textarea
-              name="address"
-              placeholder="Address"
-              onChange={handleChange}
-              className="w-full border border-gray-400 p-3 rounded-lg"
-            />
-
-            <input
-              name="pincode"
-              placeholder="Pincode"
-              onChange={handleChange}
-              className="w-full border border-gray-400 p-3 rounded-lg"
-            />
-
+            <input name="pincode" value={form.pincode} onChange={handleChange} placeholder="Pincode"
+              className="w-full border p-3 rounded-lg" />
           </div>
 
-          {/* PAYMENT METHOD */}
+          {/* PAYMENT */}
           <h2 className="text-xl font-bold mt-6 mb-4">Payment Method</h2>
 
           <div className="space-y-3">
             <label className="flex items-center border p-4 rounded-lg cursor-pointer">
-              <input
-                type="radio"
-                checked={paymentMethod === "online"}
-                onChange={() => setPaymentMethod("online")}
-              />
-              <span className="ml-3 font-semibold text-teal-600">
-                Pay Online
-              </span>
+              <input type="radio" checked={paymentMethod === "online"}
+                onChange={() => setPaymentMethod("online")} />
+              <span className="ml-3 text-teal-600 font-semibold">Pay Online</span>
             </label>
 
             <label className="flex items-center border p-4 rounded-lg cursor-pointer">
-              <input
-                type="radio"
-                checked={paymentMethod === "cod"}
-                onChange={() => setPaymentMethod("cod")}
-              />
-              <span className="ml-3 font-semibold">
-                Cash on Delivery
-              </span>
+              <input type="radio" checked={paymentMethod === "cod"}
+                onChange={() => setPaymentMethod("cod")} />
+              <span className="ml-3 font-semibold">Cash on Delivery</span>
             </label>
           </div>
 
           <button
             onClick={handleCheckout}
-            className="mt-6 w-full bg-[#05847b] text-white py-3 rounded-lg font-semibold hover:bg-[#046b63]"
+            disabled={loading}
+            className="mt-6 w-full bg-[#05847b] text-white py-3 rounded-lg font-semibold"
           >
-            Place Order
+            {loading ? "Processing..." : "Place Order"}
           </button>
         </div>
 
         {/* RIGHT SUMMARY */}
-        <div className="bg-white h-90 p-6 rounded-lg shadow sticky top-35">
+        <div className="bg-white p-6 rounded-lg shadow max-h-[400px] overflow-y-auto lg:sticky lg:top-36">
 
           <h2 className="text-xl font-bold mb-4">Order Summary</h2>
 
-          <div className="space-y-3 max-h-64 overflow-y-auto">
-            {cart.map((item) => (
-              <div key={item.name} className="flex justify-between text-xl">
-                <span>{item.name} x {item.quantity}</span>
-                <span>₹{item.price * item.quantity}</span>
-              </div>
-            ))}
-          </div>
+          {cart.map((item) => (
+            <div key={item.name} className="flex justify-between">
+              <span>{item.name} x {item.quantity}</span>
+              <span>₹{item.price * item.quantity}</span>
+            </div>
+          ))}
 
           <div className="border-t mt-4 pt-4 flex justify-between">
             <span>Subtotal</span>
             <span>₹{totalPrice()}</span>
           </div>
 
-          <div className="flex justify-between text-teal-600 font-semibold">
+          <div className="flex justify-between text-teal-600">
             <span>Tissue Token</span>
             <span>- ₹{TOKEN_DISCOUNT}</span>
           </div>
 
-          <div className="border-t mt-2 pt-4 flex justify-between text-lg font-bold">
+          <div className="border-t mt-2 pt-4 flex justify-between font-bold">
             <span>Total</span>
             <span>₹{finalAmount}</span>
           </div>
 
         </div>
-
       </div>
     </div>
-  )
+  );
 }

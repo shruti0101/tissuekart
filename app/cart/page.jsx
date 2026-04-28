@@ -10,7 +10,7 @@ export default function CartPage() {
 
   return (
 
-    <div className="bg-gray-50 min-h-screen py-16 px-6">
+    <div className="bg-gray-50 min-h-screen py-16 px-6  mt-15 md:mt-30">
 
       <div className="max-w-7xl mx-auto">
 

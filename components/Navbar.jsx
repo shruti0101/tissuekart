@@ -40,6 +40,8 @@ const [showResults, setShowResults] = useState(false);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  const wishlist = useWishlistStore((state) => state.wishlist);
+
   useEffect(() => {
     const fetchCategories = async () => {
       try {
@@ -133,6 +135,10 @@ useEffect(() => {
             <a href="/contact-us" className="hover:text-teal-700 transition">Contact Us</a>
           </nav>
 
+
+<div className="flex gap-4" >
+
+  
           {/* RIGHT */}
  <div className="search-box relative hidden xl:flex items-center bg-white rounded-full px-4 py-2 w-[260px] xl:w-[320px]">
   <input
@@ -160,29 +166,50 @@ useEffect(() => {
         <Link
           key={product._id}
           href={`/product/${product.slug}`}
-          className="flex items-center gap-3 p-3 hover:bg-gray-100 transition"
+          className="flex items-center p-3 hover:bg-gray-100 transition"
           onClick={() => setShowResults(false)}
         >
-          <Image
-            src={product.image}
-            alt={product.name}
-            width={40}
-            height={40}
-            className="rounded-md"
-          />
+         
           <div>
             <p className="text-sm font-medium text-gray-800">
               {product.name}
             </p>
-            <p className="text-xs text-gray-500">
-              ₹{product.price}
-            </p>
+           
           </div>
         </Link>
       ))
     )}
   </div>
 )}
+</div>
+
+
+
+    {/* User Icon */}
+            <Link
+              href="/login"
+              className="hidden lg:flex text-white"
+            >
+              <User size={22} />
+            </Link>
+
+            {/* cart */}
+            <button onClick={openCart} className="relative hidden lg:flex">
+              <ShoppingCart size={22} />
+              <span className="absolute -top-2 -right-2 bg-teal-600 text-white text-xs w-5 h-5 flex items-center justify-center rounded-full">
+                {cart.length}
+              </span>
+            </button>
+
+            {/* Wishlist */}
+            <Link href="/wishlist">
+              <div className="relative hidden lg:flex">
+                <Heart size={22} />
+                <span className="absolute -top-2 -right-2 bg-teal-600 text-white text-xs w-5 h-5 flex items-center justify-center rounded-full">
+                  {wishlist.length}
+                </span>
+              </div>
+            </Link>
 </div>
         </div>
 
@@ -213,7 +240,7 @@ useEffect(() => {
           ))}
 
           <div className="relative font-semibold shrink-0">
-            <a href="https://shop.tissuekart.com/sale.php" className="hover:text-teal-700 transition">
+            <a href="/sale" className="hover:text-teal-700 transition">
               SALE
             </a>
             <span className="absolute -top-2 -right-8 bg-teal-700 text-xs px-2 py-[2px] rounded-full">

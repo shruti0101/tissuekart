@@ -8,7 +8,7 @@ export default function AboutPage() {
   return (
      
    
-    <div className="max-w-5xl mx-auto pb-10 px-6 bg-white shadow-md rounded  ">
+    <div className="max-w-5xl mx-auto pb-10 mt-30 px-6 bg-white shadow-md rounded  ">
       <div className="w-full flex justify-center">
         
         <div className="w-full  max-w-[900px] bg-white px-10 py-12 shadow-sm">

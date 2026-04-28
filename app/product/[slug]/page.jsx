@@ -109,7 +109,7 @@ const handleWishlist = () => {
       : 0;
 
   return (
-  <div className="w-full mx-auto px-4 sm:px-6 lg:px-12 xl:px-16 py-6 sm:py-10">
+  <div className="w-full mx-auto px-4 sm:px-6 lg:px-12 xl:px-16 py-6 sm:py-10 mt-15 md:mt-32">
 
   {/* Breadcrumb */}
   <div className="text-xs sm:text-sm text-gray-500 mb-4 sm:mb-6">

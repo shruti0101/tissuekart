@@ -8,8 +8,10 @@ export default function RegisterPage() {
   const [form, setForm] = useState({
     name: "",
     email: "",
+    phone: "",
     password: "",
     confirmPassword: "",
+    
   });
 
   const [loading, setLoading] = useState(false);
@@ -40,6 +42,7 @@ export default function RegisterPage() {
         body: JSON.stringify({
           name: form.name,
           email: form.email,
+          phone: form.phone,  
           password: form.password,
         }),
       });
@@ -56,6 +59,7 @@ export default function RegisterPage() {
       setForm({
         name: "",
         email: "",
+        phone: "",
         password: "",
         confirmPassword: "",
       });
@@ -68,7 +72,7 @@ export default function RegisterPage() {
   };
 
   return (
-    <div className="h-[60vh] flex items-center justify-center bg-white px-6">
+    <div className="h-[60vh] flex items-center justify-center bg-white px-6 mt-10 md:mt-30">
       <div className="w-full max-w-md bg-white shadow-lg rounded-2xl p-8">
         
         <h2 className="text-3xl font-bold text-center text-gray-800">
@@ -103,6 +107,8 @@ export default function RegisterPage() {
             required
             className="w-full px-4 py-3 border rounded-lg"
           />
+
+          <input type="text" name="phone" placeholder="Phone Number" value={form.phone} onChange={handleChange} required className="w-full px-4 py-3 border rounded-lg"/>
 
           {/* Password */}
           <input
