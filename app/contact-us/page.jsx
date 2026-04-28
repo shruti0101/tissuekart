@@ -91,8 +91,8 @@ export default function ContactPage() {
               </div>
 
               <div>
-                <h3 className="font-semibold text-lg">Email</h3>
-                <p className="text-gray-600">support@tissuekart.com</p>
+                <h3 className="font-semibold text-xl">Email</h3>
+                <p className="text-black">matrixtissues@gmail.com</p>
               </div>
             </div>
 
@@ -102,8 +102,8 @@ export default function ContactPage() {
               </div>
 
               <div>
-                <h3 className="font-semibold text-lg">Phone</h3>
-                <p className="text-gray-600">+91 XXXXX XXXXX</p>
+                <h3 className="font-semibold text-xl">Phone</h3>
+                <p className="text-black">+91 - 8810540823</p>
               </div>
             </div>
 
@@ -113,8 +113,8 @@ export default function ContactPage() {
               </div>
 
               <div>
-                <h3 className="font-semibold text-lg">Location</h3>
-                <p className="text-gray-600">Delhi, India</p>
+                <h3 className="font-semibold text-xl">Location</h3>
+                <p className="text-black">I-237 , Sec-3 , Bawana Industrial Area ,  Delhi-110039</p>
               </div>
             </div>
 
@@ -203,9 +203,25 @@ export default function ContactPage() {
 
           </div>
 
+
         </div>
 
+
+
       </div>
+
+      {/* MAP */}
+<div className="w-full mt-10">
+  <div className="w-full h-[300px] sm:h-[400px]  rounded-2xl overflow-hidden border shadow-sm">
+    <iframe
+      src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3496.983547460438!2d77.0513806!3d28.7797503!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390d07de586e995f%3A0x69262d978f051d63!2sPapyrus%20by%20Matrix%20Tissues!5e0!3m2!1sen!2sin!4v1777355505029!5m2!1sen!2sin"
+      allowFullScreen
+      loading="lazy"
+      referrerPolicy="no-referrer-when-downgrade"
+      className="w-full h-full border-0"
+    />
+  </div>
+</div>
 
       <style jsx>{`
 

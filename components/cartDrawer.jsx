@@ -76,7 +76,7 @@ export default function CartDrawer() {
 
                   <button
                     onClick={() =>
-                      updateQty(item.name, item.quantity - 1)
+                      updateQty(item._id, item.quantity - 1)
                     }
                     className="p-1 border rounded-md hover:bg-gray-100"
                   >
@@ -89,7 +89,7 @@ export default function CartDrawer() {
 
                   <button
                     onClick={() =>
-                      updateQty(item.name, item.quantity + 1)
+                      updateQty(item._id, item.quantity + 1)
                     }
                     className="p-1 border rounded-md hover:bg-gray-100"
                   >
@@ -102,7 +102,7 @@ export default function CartDrawer() {
 
               {/* remove */}
               <button
-                onClick={() => removeItem(item.name)}
+                onClick={() => removeItem(item._id)}
                 className="text-gray-400 hover:text-red-500"
               >
                 <X size={16}/>

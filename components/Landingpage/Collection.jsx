@@ -16,17 +16,17 @@ export default function CategorySection() {
 const [isOpen, setIsOpen] = useState(false);
 
   const categories = [
-    { title: "Face Tissue", image: "/collection/1.webp",link:"https://shop.tissuekart.com/product.php?slug=toilet-roll-4x1" },
+    { title: "Face Tissue", image: "/collection/1.webp",link:"/category/face-tissue" },
 
-    { title: "Paper Napkin", image: "/collection/2.webp",link:"https://shop.tissuekart.com/product.php?slug=face-tissue-silk/vintage" },
+    { title: "Paper Napkin", image: "/collection/2.webp",link:"/category/paper-napkin" },
 
-    { title: "Kitchen Towel", image: "/collection/3.webp", link:"https://shop.tissuekart.com/product.php?slug=cling-film-30m"},
+    { title: "Kitchen Towel", image: "/collection/3.webp", link:"/category/kitchen-towel"},
 
-    { title: "Toilet Roll", image: "/collection/4.webp", link:"https://shop.tissuekart.com/product.php?slug=facial-tissue-pack" },
+    { title: "Toilet Roll", image: "/collection/4.webp", link:"/category/toilet-roll" },
 
-    { title: "Butter Paper Roll", image: "/collection/5.webp" , link:"https://shop.tissuekart.com/product.php?slug=face-tissue-classic" },
- 
+    { title: "Butter Paper Roll", image: "/collection/5.webp" , link:"/category/butter-paper-roll" },
   ]
+  
 
 
 

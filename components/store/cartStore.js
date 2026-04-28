@@ -1,5 +1,5 @@
-import { create } from "zustand"
-import { persist } from "zustand/middleware"
+import { create } from "zustand";
+import { persist } from "zustand/middleware";
 
 export const useCartStore = create(
   persist(
@@ -12,58 +12,69 @@ export const useCartStore = create(
       closeCart: () => set({ cartOpen: false }),
 
       addToCart: (product, quantity = 1) => {
+        const cart = get().cart;
 
-        const cart = get().cart
-        const existing = cart.find((item) => item.name === product.name)
+        const existing = cart.find(
+          (item) => item._id === product._id
+        );
+
+        let updatedCart;
 
         if (existing) {
-
-          const updated = cart.map((item) =>
-            item.name === product.name
-              ? { ...item, quantity: item.quantity + quantity }
+          updatedCart = cart.map((item) =>
+            item._id === product._id
+              ? {
+                  ...item,
+                  quantity: item.quantity + quantity,
+                }
               : item
-          )
-
-          set({ cart: updated })
-
+          );
         } else {
-
-          set({
-            cart: [...cart, { ...product, quantity }]
-          })
-
+          updatedCart = [
+            ...cart,
+            { ...product, quantity }
+          ];
         }
 
-        set({ cartOpen: true })
-      },
-
-      removeItem: (name) => {
         set({
-          cart: get().cart.filter((item) => item.name !== name)
-        })
+          cart: updatedCart,
+          cartOpen: true, // 🔥 open drawer here
+        });
       },
 
-      updateQty: (name, qty) => {
+      removeItem: (id) => {
+        set({
+          cart: get().cart.filter(
+            (item) => item._id !== id
+          ),
+        });
+      },
+
+      updateQty: (id, qty) => {
+        if (qty < 1) return; // prevent 0 or negative
 
         const updated = get().cart.map((item) =>
-          item.name === name
+          item._id === id
             ? { ...item, quantity: qty }
             : item
-        )
+        );
 
-        set({ cart: updated })
+        set({ cart: updated });
       },
 
       clearCart: () => set({ cart: [] }),
 
       totalPrice: () => {
         return get().cart.reduce(
-          (total, item) => total + item.price * item.quantity,
+          (total, item) =>
+            total + item.price * item.quantity,
           0
-        )
-      }
+        );
+      },
 
     }),
-    { name: "cart-storage" }
+    {
+      name: "cart-storage",
+    }
   )
-)
+);
