@@ -123,7 +123,7 @@ export default function Navbar() {
               alt="Logo"
               width={190}
               height={190}
-              className="w-[90px] sm:w-[130px] md:w-[160px] lg:w-[190px]"
+              className="w-[90px] sm:w-[130px] md:w-[160px] lg:w-[190px] mr-30 mr:mr-0"
               priority
             />
           </Link>
