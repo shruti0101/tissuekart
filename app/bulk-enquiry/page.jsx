@@ -66,7 +66,7 @@ export default function BulkEnquiryForm() {
 
   return (
 
-    <div className="bg-gray-50 py-20 px-6">
+    <div className="bg-gray-50 py-20 px-6 mt-7 md:mt-20">
 
       <div className="max-w-3xl mx-auto bg-white p-10 rounded-2xl shadow-lg">
 

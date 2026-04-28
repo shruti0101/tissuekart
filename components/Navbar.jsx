@@ -129,7 +129,7 @@ export default function Navbar() {
           </Link>
 
           {/* DESKTOP LINKS */}
-          <nav className="hidden lg:flex gap-10 text-[20px] font-medium mr-15">
+          <nav className="hidden lg:flex gap-10 text-[20px] font-medium mr-50">
             <a href="/">Home</a>
             <a href="/about-us">About Us</a>
             <a href="/contact-us">Contact Us</a>

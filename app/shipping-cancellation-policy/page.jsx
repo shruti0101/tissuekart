@@ -6,7 +6,7 @@ export default function ReturnRefundPolicy() {
 
   return (
 
-    <section className="bg-[#f8fafc] py-5 md:py-20 px-6">
+    <section className="bg-[#f8fafc] py-5 md:py-20 px-6 mt-8 md:mt-30">
 
       <div className="max-w-5xl mx-auto">
 

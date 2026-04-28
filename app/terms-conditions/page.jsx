@@ -5,7 +5,7 @@ export default function Page() {
   return (
     <>
       {/* HEADER */}
-      <header className="py-8 md:py-10 bg-teal-100">
+      <header className="py-8 md:py-10 bg-teal-100 mt-20 md:mt-35">
         <div className="container mx-auto px-4">
           <nav className="text-gray-600 text-base sm:text-lg mb-3 text-center">
             <ol className="list-reset inline-flex flex-wrap justify-center items-center">

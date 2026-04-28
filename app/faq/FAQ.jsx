@@ -33,7 +33,7 @@ export default function FAQ() {
   return (
     <>
       {/* HEADER */}
-      <header className="py-8 md:py-10 bg-teal-100">
+      <header className="mt-10 md:mt-35 py-8 md:py-10 bg-teal-100">
         <div className="container mx-auto px-4">
 
           {/* Breadcrumb */}

@@ -2,7 +2,7 @@ import React from "react";
 
 export default function Page() {
   return (
-    <div className="max-w-5xl mx-auto py-2 px-6 bg-white shadow-md rounded my-10">
+    <div className="mt-10 md:mt-38 max-w-5xl mx-auto py-2 px-6 bg-white shadow-md rounded my-10">
 
       <h1 className="text-3xl font-bold mb-6 text-center">
         Return & Refund Policy
