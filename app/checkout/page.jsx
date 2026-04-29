@@ -85,7 +85,7 @@ export default function CheckoutPage() {
           clearCart();
           resetForm();
 
-          router.push(`/order-success?orderId=${data.order._id}`);
+        router.push(`/order-success?orderId=${data.order.orderId}`);
         } else {
           alert("❌ Order failed");
         }
@@ -136,7 +136,7 @@ export default function CheckoutPage() {
             clearCart();
             resetForm();
 
-            router.push(`/order-success?orderId=${data.order._id}`);
+           router.push(`/order-success?orderId=${data.order.orderId}`);
           } else {
             alert("❌ Payment verification failed");
           }

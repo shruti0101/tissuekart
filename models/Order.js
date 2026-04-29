@@ -1,4 +1,4 @@
-import mongoose from "mongoose"
+import mongoose from "mongoose";
 
 const OrderSchema = new mongoose.Schema({
   orderId: {
@@ -26,22 +26,26 @@ const OrderSchema = new mongoose.Schema({
     required: true
   },
 
-  // 🔐 PAYMENT DETAILS (NEW)
-  paymentId: {
-    type: String
-  },
+  // ✅ CUSTOMER DETAILS (ADD THIS)
+  name: String,
+  email: String,
+  phone: String,
+  address: String,
+  pincode: String,
 
-  razorpayOrderId: {
-    type: String
-  },
+  // PAYMENT
+  paymentMethod: String,
+  paymentStatus: String,
 
- 
+  paymentId: String,
+  razorpayOrderId: String,
+
   status: {
     type: String,
     enum: ["pending", "paid", "failed", "shipped", "delivered"],
     default: "pending"
   }
 
-}, { timestamps: true })
+}, { timestamps: true });
 
-export default mongoose.models.Order || mongoose.model("Order", OrderSchema)
+export default mongoose.models.Order || mongoose.model("Order", OrderSchema);

@@ -28,7 +28,7 @@ export async function POST(req) {
   }
 
   const data = await req.json();
-
+console.log("ORDER DATA RECEIVED:", data);
   const {
     razorpay_order_id,
     razorpay_payment_id,
@@ -48,7 +48,7 @@ export async function POST(req) {
   // ================= ONLINE PAYMENT =================
   if (paymentMethod === "razorpay") {
     const expectedSignature = crypto
-      .createHmac("sha256", process.env.RAZORPAY_KEY_SECRET)
+      .createHmac("sha256", process.env.NEXT_PUBLIC_RAZORPAY_KEY_SECRET)
       .update(razorpay_order_id + "|" + razorpay_payment_id)
       .digest("hex");
 

@@ -1,157 +1,123 @@
 "use client";
 
-import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 
-export default function AdminPage() {
+export default function AdminDashboard() {
   const router = useRouter();
-  const [orders, setOrders] = useState([]);
 
-  // 🔄 Fetch Orders
+  const [stats, setStats] = useState({
+    orders: 0,
+    revenue: 0,
+    users: 0,
+    products: 0,
+  });
+
+  // AUTH CHECK
   useEffect(() => {
     const user = JSON.parse(localStorage.getItem("user"));
 
     if (!user || user.role !== "admin") {
       router.push("/login");
-      return;
     }
-
-    const token = localStorage.getItem("token");
-
-    fetch("/api/orders", {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        if (Array.isArray(data)) setOrders(data);
-      });
   }, []);
 
-  // 🔁 Update Status
-  const updateStatus = async (id, status) => {
-    const token = localStorage.getItem("token");
-
-    const res = await fetch(`/api/orders/${id}`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify({ status }),
+  // FAKE STATS (you can replace with API later)
+  useEffect(() => {
+    setStats({
+      orders: 54,
+      revenue: 45320,
+      users: 1240,
+      products: 128,
     });
-
-    if (res.ok) {
-      setOrders((prev) =>
-        prev.map((o) => (o._id === id ? { ...o, status } : o))
-      );
-    }
-  };
+  }, []);
 
   return (
-    <div className="p-6 md:p-10 bg-gray-50 min-h-screen">
-      <h1 className="text-3xl font-bold mb-8">📦 Admin Orders</h1>
+    <div className="min-h-screen bg-[#f4f6fb] p-6 md:p-10">
 
-      {/* ACTION BUTTONS */}
-      <div className="mb-6 flex gap-3">
-        <Link href="/admin/products">
-          <button className="bg-blue-600 text-white px-5 py-2 rounded-lg">
-            View Products
-          </button>
-        </Link>
+      {/* HEADER */}
+      <div className="flex justify-between items-center mb-10">
+        <div>
+          <h1 className="text-3xl font-bold text-gray-800">
+            Dashboard Overview
+          </h1>
+          <p className="text-gray-500 mt-1">
+            Welcome back, Admin 👋
+          </p>
+        </div>
 
-        <Link href="/admin/add-product">
-          <button className="bg-black text-white px-5 py-2 rounded-lg">
-            + Add Product
-          </button>
-        </Link>
+        <button
+          onClick={() => router.push("/admin/orders")}
+          className="bg-black text-white px-5 py-2 rounded-xl shadow hover:opacity-90"
+        >
+          View Orders
+        </button>
       </div>
 
-      {/* ORDERS */}
-      <div className="space-y-6">
-        {orders.map((order) => (
-          <div
-            key={order._id}
-            className="bg-white rounded-xl shadow-md p-6"
-          >
-            {/* TOP */}
-            <div className="flex justify-between items-center mb-4">
-              <div>
-                <h2 className="font-bold text-lg">
-                  Order ID: {order.orderId}
-                </h2>
-                <p className="text-sm text-gray-500">
-                  {new Date(order.createdAt).toLocaleString()}
-                </p>
-              </div>
+      {/* STATS */}
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
 
-              {/* STATUS DROPDOWN */}
-              <select
-                value={order.status}
-                onChange={(e) =>
-                  updateStatus(order._id, e.target.value)
-                }
-                className="border px-3 py-2 rounded-lg"
-              >
-                <option value="pending">Pending</option>
-                <option value="paid">Paid</option>
-                <option value="shipped">Shipped</option>
-                <option value="delivered">Delivered</option>
-              </select>
-            </div>
+        <div className="bg-white p-6 rounded-2xl shadow hover:shadow-lg transition">
+          <p className="text-gray-500 text-sm">Total Orders</p>
+          <h2 className="text-3xl font-bold mt-2">{stats.orders}</h2>
+        </div>
 
-            {/* CUSTOMER */}
-            <div className="mb-4">
-              <p><strong>Name:</strong> {order.name}</p>
-              <p><strong>Phone:</strong> {order.phone}</p>
-              <p><strong>Email:</strong> {order.email}</p>
-              <p><strong>Address:</strong> {order.address}</p>
-              <p><strong>Pincode:</strong> {order.pincode}</p>
-            </div>
+        <div className="bg-white p-6 rounded-2xl shadow hover:shadow-lg transition">
+          <p className="text-gray-500 text-sm">Revenue</p>
+          <h2 className="text-3xl font-bold mt-2">
+            ₹{stats.revenue.toLocaleString()}
+          </h2>
+        </div>
 
-            {/* PRODUCTS */}
-            <div className="mb-4">
-              <h3 className="font-semibold mb-2">Products:</h3>
+        <div className="bg-white p-6 rounded-2xl shadow hover:shadow-lg transition">
+          <p className="text-gray-500 text-sm">Users</p>
+          <h2 className="text-3xl font-bold mt-2">{stats.users}</h2>
+        </div>
 
-              <div className="space-y-2">
-                {order.products.map((item, i) => (
-                  <div
-                    key={i}
-                    className="flex justify-between border p-2 rounded-md"
-                  >
-                    <span>
-                      {item.name} × {item.quantity}
-                    </span>
-                    <span>
-                      ₹{item.price * item.quantity}
-                    </span>
-                  </div>
-                ))}
-              </div>
-            </div>
+        <div className="bg-white p-6 rounded-2xl shadow hover:shadow-lg transition">
+          <p className="text-gray-500 text-sm">Products</p>
+          <h2 className="text-3xl font-bold mt-2">{stats.products}</h2>
+        </div>
 
-            {/* PAYMENT */}
-            <div className="flex justify-between items-center mt-4 border-t pt-4">
-              <div>
-                <p>
-                  <strong>Payment:</strong>{" "}
-                  {order.paymentMethod}
-                </p>
-                <p>
-                  <strong>Status:</strong>{" "}
-                  {order.paymentStatus}
-                </p>
-              </div>
-
-              <div className="text-lg font-bold">
-                ₹{order.total}
-              </div>
-            </div>
-          </div>
-        ))}
       </div>
+
+      {/* QUICK ACTIONS */}
+      <div className="mt-12 grid md:grid-cols-3 gap-6">
+
+        <div
+          onClick={() => router.push("/admin/orders")}
+          className="bg-gradient-to-r from-black to-gray-800 text-white p-6 rounded-2xl cursor-pointer hover:scale-[1.02] transition"
+        >
+          <h3 className="text-lg font-semibold">Manage Orders</h3>
+          <p className="text-sm mt-2 opacity-80">
+            Track & update customer orders
+          </p>
+        </div>
+
+        <div
+          onClick={() => router.push("/admin/products")}
+          className="bg-white p-6 rounded-2xl shadow cursor-pointer hover:shadow-lg transition"
+        >
+          <h3 className="text-lg font-semibold">Products</h3>
+          <p className="text-sm text-gray-500 mt-2">
+            Add, edit or delete products
+          </p>
+        </div>
+
+        <div
+          onClick={() => router.push("/admin/categories")}
+          className="bg-white p-6 rounded-2xl shadow cursor-pointer hover:shadow-lg transition"
+        >
+          <h3 className="text-lg font-semibold">Categories</h3>
+          <p className="text-sm text-gray-500 mt-2">
+            Organize product categories
+          </p>
+        </div>
+
+      </div>
+
+   
+
     </div>
   );
 }
