@@ -206,7 +206,7 @@ export default function CategorySection() {
       </section>
 
 
-      <section className="w-full bg-[#efefef] mt-4 ">
+      <section className="w-full bg-[#efefef] py-4 ">
         <h2 className="capitalize font-bold text-center mb-8 text-xl md:text-4xl">
           bulk enquiry
         </h2>
