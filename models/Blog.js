@@ -8,7 +8,15 @@ const blogSchema = new mongoose.Schema({
   metaTitle: String,
   metaDescription: String,
   slug: String,
-  image: String
+  image: String,
+  date: {
+    type: Date,
+    required: true,
+    default: Date.now, 
+  },
+  imageFileId:String    
 }, { timestamps: true })
 
-export default mongoose.model("Blog", blogSchema)
+const Blog = mongoose.models.Blog || mongoose.model("Blog", blogSchema);
+
+export default Blog;

@@ -15,41 +15,81 @@ export default function BlogsPage() {
 
   return (
 
-    <div className="max-w-7xl mx-auto py-12 px-6">
+    <div className="max-w-7xl mt-25 mx-auto py-12 ">
 
-      <h1 className="text-3xl font-semibold mb-10">
-        Latest Blogs
-      </h1>
+      <section className="relative h-[300px] flex items-center justify-center bg-[#0f756a]  text-white text-center">
+        {/* Overlay */}
 
-      <div className="grid md:grid-cols-3 gap-8">
+        {/* Content */}
+        <div className="relative z-10">
+          <h1 className="text-5xl font-bold mb-2">Our Blog</h1>
+          <p className="text-lg">
+            Insights on hygiene, sustainability, and modern living.
+          </p>
+        </div>
+      </section>
 
-        {blogs.map(blog => (
+      <section className="py-7 bg-gray-50">
+      <div className="container mx-auto px-4 max-w-full">
 
-          <Link
-            key={blog._id}
-            href={`/blogs/${blog._id}`}
-            className="bg-white shadow rounded-xl overflow-hidden hover:shadow-lg transition"
-          >
+        {/* Header */}
+        <h1 className="text-4xl md:text-5xl font-bold text-center mb-4">
+          Tissue Kart Blog
+        </h1>
 
-            <img src={blog.image} className="h-48 w-full object-cover" />
+        <p className="text-center text-gray-600 max-w-3xl mx-auto mb-10">
+          Explore hygiene, sustainability, and lifestyle insights with Tissue Kart.
+          From tissue paper manufacturing to modern home essentials — discover how
+          everyday products enhance comfort, hygiene, and convenience.
+        </p>
 
-            <div className="p-5">
+        {/* Blog Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
 
-              <h2 className="text-lg font-semibold mb-2">
+          {blogs.map((blog) => (
+            <Link
+              key={blog._id}
+              href={`/blogs/${blog.slug}`}
+              className="bg-white rounded-lg shadow hover:shadow-lg transition p-4 group"
+            >
+              {/* Image */}
+              <img
+                src={blog.image}
+                alt={blog.title}
+                className="w-full h-48 object-cover rounded-md 
+                group-hover:scale-[1.02] transition-transform duration-300"
+              />
+
+              {/* Title */}
+              <h4 className="mt-4 text-xl font-semibold text-gray-900 group-hover:text-orange-500 transition">
                 {blog.title}
-              </h2>
+              </h4>
 
-              <p className="text-gray-500 text-sm line-clamp-2">
-                {blog.content}
+              {/* Content (HTML safe render) */}
+              <div
+                className="text-gray-500 mt-2 text-sm line-clamp-3"
+                dangerouslySetInnerHTML={{
+                  __html: blog.content || "<p>No description available</p>",
+                }}
+              />
+
+              {/* Date */}
+              <p className="text-sm text-gray-600 mt-3 flex items-center gap-2">
+                📅{" "}
+                {blog.date
+                  ? new Date(blog.date).toLocaleDateString("en-IN", {
+                      day: "numeric",
+                      month: "long",
+                      year: "numeric",
+                    })
+                  : "No date"}
               </p>
+            </Link>
+          ))}
 
-            </div>
-
-          </Link>
-
-        ))}
-
+        </div>
       </div>
+    </section>
 
     </div>
   )

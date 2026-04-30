@@ -20,7 +20,7 @@ const Footer = () => {
               { label: "Privacy Policy", href: "/privacy-policy" },
               { label: "Terms & Conditions", href: "/terms-conditions" },
               { label: "Contact Us", href: "/contact-us" },
-              { label: "Our Blog", href: "https://shop.tissuekart.com/blogs.php" },
+              { label: "Our Blog", href: "/blogs" },
               { label: "Bulk Enquiry", href: "/bulk-enquiry" },
               { label: "Whatsapp", href: "https://wa.me/+918810540823" },
             ].map((item, i) => (
