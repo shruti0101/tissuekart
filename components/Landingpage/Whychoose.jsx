@@ -168,86 +168,7 @@ const Whychoose = () => {
 
       {/* blogs */}
 
-      <section className="w-full bg-[#f5f1eb] py-10">
-        <div className=" mx-auto px-8">
-          {/* Header */}
-          <div className="text-center mb-8">
-            <h2 className="text-4xl font-serif font-semibold text-black mb-3">
-              Our Blog
-            </h2>
-            <p className="text-md font-serif text-black">
-              The Everyday Essential for Hygiene, Style, and Convenience
-            </p>
-          </div>
-
-          {/* Blog Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
-            {/* Card 1 */}
-            <div className="bg-white rounded-xl shadow-sm hover:shadow-md transition overflow-hidden">
-              <img
-                src="/blog1.webp"
-                alt="Face Tissue vs Handkerchief"
-                className="w-full h-50 object-contain md:object-cover "
-              />
-              <div className="p-6">
-                <h3 className="text-xl font-serif font-semibold mb-3">
-                  Face Tissues vs. Handkerchiefs: Which One Is More Hygienic?
-                </h3>
-                <p className="text-gray-600 text-[15px] leading-relaxed">
-                  There is one question that people usually ask: is it better to
-                  use face tissues or handkerchiefs for personal hygiene?
-                </p>
-              </div>
-            </div>
-
-            {/* Card 2 */}
-            <div className="bg-white rounded-xl shadow-sm hover:shadow-md transition overflow-hidden">
-              <img
-                src="/blog2.webp"
-                alt="Tissue Napkins"
-                className="w-full h-50 object-contain md:object-cover"
-              />
-              <div className="p-6">
-                <h3 className="text-xl font-serif font-semibold mb-3">
-                  Tissue Napkins: The Hygienic Dining Essential
-                </h3>
-                <p className="text-gray-600 text-[15px] leading-relaxed">
-                  Cleanliness and presentation are the two most important
-                  factors in every dining experience.
-                </p>
-              </div>
-            </div>
-
-            {/* Card 3 */}
-            <div className="bg-white rounded-xl shadow-sm hover:shadow-md transition overflow-hidden">
-              <img
-                src="/blog3.webp"
-                alt="Kitchen Towels Manufacturing"
-                className="w-full h-50 object-contain md:object-cover"
-              />
-              <div className="p-6">
-                <h3 className="text-xl font-serif font-semibold mb-3">
-                  The Manufacturing Process of Kitchen Towels: From Pulp to
-                  Perfection
-                </h3>
-                <p className="text-gray-600 text-[15px] leading-relaxed">
-                  Behind every soft, absorbent kitchen towel lies an intricate
-                  process that combines science, precision, and sustainability.
-                </p>
-              </div>
-            </div>
-          </div>
-
-          <Link
-            href="https://shop.tissuekart.com/blogs.php"
-            className="flex justify-center items-center"
-          >
-            <button className="text-white cursor-pointer mt-7 rounded-sm bg-[#227873] uppercase py-3 px-6 text-md hover:bg-[#E6B70C] transition transform hover:scale-105">
-              read more
-            </button>
-          </Link>
-        </div>
-      </section>
+   
 
       <section className="w-full bg-white py-15">
         <div className="max-w-4xl mx-auto px-6 text-center">
@@ -289,3 +210,85 @@ const Whychoose = () => {
 };
 
 export default Whychoose;
+
+
+  //  <section className="w-full bg-[#f5f1eb] py-10">
+  //       <div className=" mx-auto px-8">
+  //         {/* Header */}
+  //         <div className="text-center mb-8">
+  //           <h2 className="text-4xl font-serif font-semibold text-black mb-3">
+  //             Our Blog
+  //           </h2>
+  //           <p className="text-md font-serif text-black">
+  //             The Everyday Essential for Hygiene, Style, and Convenience
+  //           </p>
+  //         </div>
+
+  //         {/* Blog Grid */}
+  //         <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
+  //           {/* Card 1 */}
+  //           <div className="bg-white rounded-xl shadow-sm hover:shadow-md transition overflow-hidden">
+  //             <img
+  //               src="/blog1.webp"
+  //               alt="Face Tissue vs Handkerchief"
+  //               className="w-full h-50 object-contain md:object-cover "
+  //             />
+  //             <div className="p-6">
+  //               <h3 className="text-xl font-serif font-semibold mb-3">
+  //                 Face Tissues vs. Handkerchiefs: Which One Is More Hygienic?
+  //               </h3>
+  //               <p className="text-gray-600 text-[15px] leading-relaxed">
+  //                 There is one question that people usually ask: is it better to
+  //                 use face tissues or handkerchiefs for personal hygiene?
+  //               </p>
+  //             </div>
+  //           </div>
+
+  //           {/* Card 2 */}
+  //           <div className="bg-white rounded-xl shadow-sm hover:shadow-md transition overflow-hidden">
+  //             <img
+  //               src="/blog2.webp"
+  //               alt="Tissue Napkins"
+  //               className="w-full h-50 object-contain md:object-cover"
+  //             />
+  //             <div className="p-6">
+  //               <h3 className="text-xl font-serif font-semibold mb-3">
+  //                 Tissue Napkins: The Hygienic Dining Essential
+  //               </h3>
+  //               <p className="text-gray-600 text-[15px] leading-relaxed">
+  //                 Cleanliness and presentation are the two most important
+  //                 factors in every dining experience.
+  //               </p>
+  //             </div>
+  //           </div>
+
+  //           {/* Card 3 */}
+  //           <div className="bg-white rounded-xl shadow-sm hover:shadow-md transition overflow-hidden">
+  //             <img
+  //               src="/blog3.webp"
+  //               alt="Kitchen Towels Manufacturing"
+  //               className="w-full h-50 object-contain md:object-cover"
+  //             />
+  //             <div className="p-6">
+  //               <h3 className="text-xl font-serif font-semibold mb-3">
+  //                 The Manufacturing Process of Kitchen Towels: From Pulp to
+  //                 Perfection
+  //               </h3>
+  //               <p className="text-gray-600 text-[15px] leading-relaxed">
+  //                 Behind every soft, absorbent kitchen towel lies an intricate
+  //                 process that combines science, precision, and sustainability.
+  //               </p>
+  //             </div>
+  //           </div>
+  //         </div>
+
+  //         <Link
+  //           href="https://shop.tissuekart.com/blogs.php"
+  //           className="flex justify-center items-center"
+  //         >
+  //           <button className="text-white cursor-pointer mt-7 rounded-sm bg-[#227873] uppercase py-3 px-6 text-md hover:bg-[#E6B70C] transition transform hover:scale-105">
+  //             read more
+  //           </button>
+  //         </Link>
+  //       </div>
+  //     </section>
