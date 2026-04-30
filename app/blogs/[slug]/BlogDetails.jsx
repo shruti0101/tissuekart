@@ -25,7 +25,7 @@ export default function BlogDetail() {
     );
 
   return (
-    <section className="py-16 mt-25 bg-gray-50">
+    <section className="py-16 md:mt-25 bg-gray-50">
       <div className="container mx-auto px-4 max-w-5xl bg-white rounded-2xl shadow-md p-8">
 
         {/* Title */}

@@ -15,7 +15,7 @@ export default function BlogsPage() {
 
   return (
 
-    <div className="max-w-7xl mt-25 mx-auto py-12 ">
+    <div className="w-full mt-3 md:mt-25 mx-auto py-12 ">
 
       <section className="relative h-[300px] flex items-center justify-center bg-[#0f756a]  text-white text-center">
         {/* Overlay */}
@@ -44,7 +44,7 @@ export default function BlogsPage() {
         </p>
 
         {/* Blog Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:px-10">
 
           {blogs.map((blog) => (
             <Link
