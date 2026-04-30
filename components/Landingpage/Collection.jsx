@@ -145,15 +145,12 @@ export default function CategorySection() {
       </div>
 
       {/* Right Image */}
-       <section className="py-10 relative max-w-7xl mx-auto overflow-hidden">
 
-      {/* ✅ BACKGROUND IMAGE LAYER */}
-      <div
-        className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-        style={{
-          backgroundImage: "url('/whychoose/bg.webp')",
-        }}
-      />
+      <section   style={{backgroundImage:"url(/whychoose/bg.webp)"}} className="py-10 relative bg-cover bg-center">
+
+       <div className=" relative max-w-7xl mx-auto overflow-hidden">
+
+    
 
       {/* Optional overlay */}
       <div className="absolute inset-0 bg-white/10" />
@@ -161,23 +158,14 @@ export default function CategorySection() {
       {/* CONTENT */}
       <div className="relative z-10 grid grid-cols-1  lg:grid-cols-2 md:gap-12 items-center">
 
-        {/* Decorative images */}
-        <img
-          src="/whychoose/green-leaves-landing.webp"
-          alt="Green Leaves"
-          className="absolute top-0 left-0 w-[50px] h-[50px]"
-        />
+  
+       
 
-        <img
-          src="/whychoose/leave.webp"
-          alt="Leaf"
-          className="absolute top-120 right-0 w-[150px] h-[150px] z-10"
-        />
 
         {/* LEFT CONTENT */}
         <div className="space-y-6 px-4 relative z-20">
 
-          <h2 className="text-4xl mt-7 font-bold lg:ml-4 text-gray-900">
+          <h2 className="text-4xl font-bold lg:ml-4 text-gray-900">
             Why Choose Our Institutional Packs?
           </h2>
 
@@ -205,7 +193,7 @@ export default function CategorySection() {
         {/* RIGHT IMAGE */}
         <div className="relative flex justify-center z-20">
 
-          <div className="w-full max-w-md lg:max-w-lg h-[350px] lg:h-[450px] bg-cover bg-center rounded-2xl "
+          <div className="w-full max-w-md lg:max-w-2xl h-[320px] lg:h-[550px] bg-cover bg-center rounded-2xl "
             style={{
               backgroundImage: "url('/whychoose/whychoose.webp')",
             }}
@@ -214,10 +202,11 @@ export default function CategorySection() {
         </div>
 
       </div>
-    </section>
+    </div>
+      </section>
 
 
-      <section className="w-full bg-[#efefef] py-10">
+      <section className="w-full bg-[#efefef] ">
         <h2 className="capitalize font-bold text-center mb-8 text-xl md:text-4xl">
           bulk enquiry
         </h2>
