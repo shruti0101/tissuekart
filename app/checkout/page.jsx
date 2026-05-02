@@ -145,6 +145,8 @@ export default function CheckoutPage() {
         theme: { color: "#05847b" },
       };
 
+
+
       const rzp = new window.Razorpay(options);
       rzp.open();
     } catch (err) {
