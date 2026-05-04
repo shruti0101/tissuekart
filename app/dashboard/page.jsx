@@ -28,16 +28,16 @@ export default function Dashboard() {
 
   const totalSpent = orders.reduce((acc, o) => acc + (o.total || 0), 0)
 
-  // ✅ LOGOUT FUNCTION
+  //  LOGOUT FUNCTION
   const handleLogout = () => {
     localStorage.removeItem("token")
     localStorage.removeItem("user")
-    window.location.href = "/login"
+    window.location.href = "/"
   }
 
   return (
 
-    <div className="min-h-screen bg-white  px-6">
+    <div className="min-h-screen bg-white mt-10 md:mt-20  px-6">
 
       <div className="max-w-7xl mx-auto">
 
@@ -158,14 +158,7 @@ export default function Dashboard() {
                       {formattedDate}
                     </p>
 
-                    <button
-                      onClick={() =>
-                        window.open(`/api/orders/${order.orderId || order._id}/invoice`)
-                      }
-                      className="mt-4 bg-black text-white px-5 py-2 rounded-xl text-sm hover:opacity-90 transition"
-                    >
-                      Download Invoice
-                    </button>
+                 
                   </div>
 
                   <div className="text-2xl font-bold text-gray-900">

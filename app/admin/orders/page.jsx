@@ -8,6 +8,34 @@ export default function AdminPage() {
   const router = useRouter();
   const [orders, setOrders] = useState([]);
 
+
+
+
+const handleAssignCourier = async (orderId) => {
+  try {
+    const res = await fetch("/api/assign-courier", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ orderId }),
+    });
+
+    const data = await res.json();
+
+    if (data.success) {
+      alert("✅ Courier Assigned");
+      location.reload();
+    } else {
+      alert(data.error);
+    }
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+
+
   // 🔄 Fetch Orders
   useEffect(() => {
     const user = JSON.parse(localStorage.getItem("user"));
@@ -73,6 +101,14 @@ export default function AdminPage() {
                   {new Date(order.createdAt).toLocaleString()}
                 </p>
               </div>
+
+                  <button
+      onClick={() => handleAssignCourier(order.orderId)}
+      className="bg-blue-600 text-white px-3 py-1 rounded mt-2"
+    >
+      Assign Courier 
+    </button>
+
 
               {/* STATUS DROPDOWN */}
             

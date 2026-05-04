@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { useCartStore } from "@/components/store/cartStore";
 import { useRouter } from "next/navigation";
+import { toast } from "react-hot-toast";
 
 export default function CheckoutPage() {
   const { cart, totalPrice, clearCart } = useCartStore();
@@ -10,19 +11,55 @@ export default function CheckoutPage() {
 
   const [loading, setLoading] = useState(false);
   const [paymentMethod, setPaymentMethod] = useState("online");
+  const [shipping, setShipping] = useState(0);
+  const [courier, setCourier] = useState("");
 
   const [form, setForm] = useState({
     name: "",
     phone: "",
     email: "",
+    city: "",
+    state: "",
     address: "",
     pincode: "",
   });
 
   const TOKEN_DISCOUNT = 10;
-  const finalAmount = Math.max(0, totalPrice() - TOKEN_DISCOUNT);
+  const finalAmount = Math.max(0, totalPrice() - TOKEN_DISCOUNT + shipping);
 
-  // ✅ Load Razorpay script
+  // 🔐 Auth check
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      toast.error("Please login first");
+      router.push("/login");
+    }
+  }, []);
+
+  // 📦 Fetch shipping
+  useEffect(() => {
+    const fetchShipping = async () => {
+      if (form.pincode.length !== 6) return;
+
+      try {
+        const res = await fetch(`/api/shipping-rate?pincode=${form.pincode}`);
+        const data = await res.json();
+
+        if (data.success) {
+          setShipping(data.price);
+          setCourier(data.courier);
+        } else {
+          setShipping(0);
+        }
+      } catch (err) {
+        console.error(err);
+      }
+    };
+
+    fetchShipping();
+  }, [form.pincode]);
+
+  // Razorpay script
   useEffect(() => {
     const script = document.createElement("script");
     script.src = "https://checkout.razorpay.com/v1/checkout.js";
@@ -30,26 +67,25 @@ export default function CheckoutPage() {
     document.body.appendChild(script);
   }, []);
 
-  // ✅ Input handler
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  // ✅ Reset form
   const resetForm = () => {
     setForm({
       name: "",
       phone: "",
       email: "",
+      city: "",
+      state: "",
       address: "",
       pincode: "",
     });
   };
 
-  // ✅ Validation
   const validate = () => {
-    if (!form.name || !form.phone || !form.address || !form.pincode) {
-      alert("Please fill all required fields");
+    if (!form.name || !form.phone || !form.address || !form.pincode || !form.city || !form.state) {
+      toast.error("Please fill all fields");
       return false;
     }
     return true;
@@ -74,6 +110,7 @@ export default function CheckoutPage() {
           body: JSON.stringify({
             products: cart,
             total: finalAmount,
+            shippingCharge: shipping, // ✅ FIXED
             paymentMethod: "cod",
             ...form,
           }),
@@ -84,10 +121,9 @@ export default function CheckoutPage() {
         if (data.order) {
           clearCart();
           resetForm();
-
-        router.push(`/order-success?orderId=${data.order.orderId}`);
+          router.push(`/order-success?orderId=${data.order.orderId}`);
         } else {
-          alert("❌ Order failed");
+          toast.error("Order failed");
         }
 
         setLoading(false);
@@ -97,9 +133,7 @@ export default function CheckoutPage() {
       // ================= ONLINE =================
       const res = await fetch("/api/razorpay/order", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ amount: finalAmount }),
       });
 
@@ -122,6 +156,7 @@ export default function CheckoutPage() {
             body: JSON.stringify({
               products: cart,
               total: finalAmount,
+              shippingCharge: shipping, // ✅ FIXED
               paymentMethod: "razorpay",
               ...form,
               razorpay_order_id: response.razorpay_order_id,
@@ -135,23 +170,19 @@ export default function CheckoutPage() {
           if (data.order) {
             clearCart();
             resetForm();
-
-           router.push(`/order-success?orderId=${data.order.orderId}`);
+            router.push(`/order-success?orderId=${data.order.orderId}`);
           } else {
-            alert("❌ Payment verification failed");
+            toast.error("Payment verification failed");
           }
         },
-
-        theme: { color: "#05847b" },
       };
-
-
 
       const rzp = new window.Razorpay(options);
       rzp.open();
+
     } catch (err) {
       console.error(err);
-      alert("Something went wrong");
+      toast.error("Something went wrong");
     }
 
     setLoading(false);
@@ -175,8 +206,22 @@ export default function CheckoutPage() {
 
             <input name="email" value={form.email} onChange={handleChange} placeholder="Email"
               className="w-full border p-3 rounded-lg" />
+<input
+  name="city"
+  value={form.city}
+  onChange={handleChange}
+  placeholder="City"
+  className="w-full border p-3 rounded-lg"
+/>
 
-            <textarea name="address" value={form.address} onChange={handleChange} placeholder="Address"
+<input
+  name="state"
+  value={form.state}
+  onChange={handleChange}
+  placeholder="State"
+  className="w-full border p-3 rounded-lg"
+/>
+            <textarea name="address" value={form.address} onChange={handleChange} placeholder="Full Address"
               className="w-full border p-3 rounded-lg" />
 
             <input name="pincode" value={form.pincode} onChange={handleChange} placeholder="Pincode"
@@ -231,10 +276,24 @@ export default function CheckoutPage() {
             <span>- ₹{TOKEN_DISCOUNT}</span>
           </div>
 
+
+                 <div className="flex justify-between">
+  <span>Delivery</span>
+  <span>₹{shipping}</span>
+</div>
+
+{courier && (
+  <p className="text-xs text-gray-500 mt-1">
+    Delivery via {courier}
+  </p>
+)}
+
           <div className="border-t mt-2 pt-4 flex justify-between font-bold">
             <span>Total</span>
             <span>₹{finalAmount}</span>
           </div>
+
+   
 
         </div>
       </div>

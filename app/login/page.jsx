@@ -33,7 +33,7 @@ export default function LoginPage() {
 if (data.user.role === "admin") {
   router.push("/admin")
 } else {
-  router.push("/dashboard")
+  router.push("/checkout")
 }
 
   }
@@ -92,7 +92,12 @@ if (data.user.role === "admin") {
           </button>
         </Link>
 
-      </div>
+        <Link href="/" className="flex justify-center items-center">
+
+<button className="bg-black  text-white px-9 cursor-pointer text-base font-semibold rounded-sm capitalize  py-3 mt-4 ">back to home</button>
+        </Link>
+      </div>   
+   
 
     </div>
  </section>

@@ -26,12 +26,27 @@ const OrderSchema = new mongoose.Schema({
     required: true
   },
 
+  
+
   // ✅ CUSTOMER DETAILS (ADD THIS)
   name: String,
   email: String,
   phone: String,
   address: String,
   pincode: String,
+
+
+  
+  city: {
+    type: String,
+    required: true,
+  },
+
+  state: {
+    type: String,
+    required: true,
+  },
+
 
   // PAYMENT
   paymentMethod: String,
@@ -44,7 +59,13 @@ const OrderSchema = new mongoose.Schema({
     type: String,
     enum: ["pending", "paid", "failed", "shipped", "delivered"],
     default: "pending"
-  }
+  },
+
+  shipment_id:String,
+  awb_code: String,
+courier_name: String,
+tracking_url: String,
+
 
 }, { timestamps: true });
 
