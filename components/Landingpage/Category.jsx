@@ -54,7 +54,7 @@ export default function CategorySection() {
         </section>
 
         {/* BUTTON */}
-        <Link href="https://shop.tissuekart.com/shop.php" className="flex justify-center items-center py-4">
+        <Link href="/shop" className="flex justify-center items-center py-4">
           <button className="px-4 text-md py-3 bg-teal-700 mt-2 text-white cursor-pointer rounded-md capitalize hover:bg-yellow-500">
             explore categories
           </button>

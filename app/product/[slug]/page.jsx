@@ -126,7 +126,7 @@ const handleWishlist = () => {
           alt={product.name}
           width={1000}
           height={800}
-          className="object-cover max-h-full"
+          className="object-contain max-h-full"
         />
       </div>
 

@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useCartStore } from "@/components/store/cartStore";
-import { useWishlistStore } from "@/components/store/wishlistStore";
+// import { useWishlistStore } from "@/components/store/wishlistStore";
 
 export default function AllProductsPage() {
   const [products, setProducts] = useState([]);
@@ -19,11 +19,11 @@ export default function AllProductsPage() {
   const [maxPrice, setMaxPrice] = useState("");
 
   const addToCart = useCartStore((state) => state.addToCart);
-  const wishlist = useWishlistStore((state) => state.wishlist);
-  const addWishlist = useWishlistStore((state) => state.addToWishlist);
-  const removeWishlist = useWishlistStore((state) => state.removeFromWishlist);
+  // const wishlist = useWishlistStore((state) => state.wishlist);
+  // const addWishlist = useWishlistStore((state) => state.addToWishlist);
+  // const removeWishlist = useWishlistStore((state) => state.removeFromWishlist);
 
-  // fetch products
+  // fetching products
   useEffect(() => {
     const fetchProducts = async () => {
       try {
@@ -32,10 +32,9 @@ export default function AllProductsPage() {
         const res = await fetch("/api/products");
         const data = await res.json();
 
-        const list = Array.isArray(data) ? data : [];
-
-        setProducts(list);
-        setFiltered(list); // ✅ important
+const list = Array.isArray(data) ? [...data].reverse() : [];
+setProducts(list);
+setFiltered(list);  
       } catch (err) {
         console.error(err);
       } finally {
@@ -61,7 +60,7 @@ export default function AllProductsPage() {
     fetchCategories();
   }, []);
 
-  // ✅ APPLY FILTERS (FIXED)
+  // filters apply
   const applyFilters = () => {
     let temp = [...products];
 
@@ -104,7 +103,7 @@ export default function AllProductsPage() {
     
     <section className="  ">
       
-  <div className="bg-[#f3f3f3] mt-2 ">
+  <div className="bg-[#f3f3f3] mt-10 md:mt-36 ">
 
       {/* HERO */}
       <div className="bg-[#1f6f6c] text-white text-center py-10">

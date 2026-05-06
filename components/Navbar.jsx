@@ -8,6 +8,23 @@ import { useWishlistStore } from "@/components/store/wishlistStore";
 import { motion } from "framer-motion";
 
 export default function Navbar() {
+
+
+
+
+
+const categoryImages = {
+  "Face Tissue": "/catimg1.webp",
+  "Paper Napkin": "/catimg-4.webp",
+  "Kitchen Towel": "/catimg2.webp",
+  "Toilet Roll": "/catimg5.webp",
+  "Butter Paper Roll": "/catimg3.webp",
+  "Cake Box": "catimg6.webp",
+  "Bamboo Tissue": "/bamboot.webp",
+};
+
+
+
   const [query, setQuery] = useState("");
   const [results, setResults] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -206,22 +223,37 @@ export default function Navbar() {
 
     {/* CATEGORIES */}
     <div>
+
+      <Link className="pb-3" href="/">Home</Link>
+
+    <hr className="py-3 opacity-25" />
+
       <p className="text-xs font-semibold text-gray-500 mb-3 uppercase tracking-wide">
         Categories
       </p>
 
-      <div className="flex flex-col gap-3">
-        {categories.map((cat) => (
-          <Link
-            key={cat._id}
-            href={`/category/${cat.slug}`}
-            onClick={() => setOpen(false)}
-            className="text-[15px] hover:text-teal-600 transition"
-          >
-            {cat.name}
-          </Link>
-        ))}
-      </div>
+    <div className="flex flex-col gap-3">
+  {categories.map((cat) => (
+    <Link
+      key={cat._id}
+      href={`/category/${cat.slug}`}
+      onClick={() => setOpen(false)}
+      className="flex items-center gap-3 p-1 rounded-lg hover:bg-gray-100 transition"
+    >
+      {/* Static Image */}
+      <img
+        src={categoryImages[cat.name] || "/placeholder.png"}
+        alt={cat.name}
+        className="w-15 h-15 object-cover"
+      />
+
+      {/* Name */}
+      <span className="text-[20px] hover:text-teal-600 transition">
+        {cat.name}
+      </span>
+    </Link>
+  ))}
+</div>
     </div>
 
     

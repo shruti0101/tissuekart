@@ -109,18 +109,18 @@ const addToCart = useCartStore((state) => state.addToCart);
               </p>
 
               {/* Image */}
-              <div className="relative group flex justify-center items-center mb-3 sm:mb-5 h-[120px] sm:h-[150px] overflow-hidden">
+              <div className="relative group flex justify-center items-center mb-3 sm:mb-5 h-[150px] md:h-[190px] overflow-hidden">
 
                 <Image
                   src={product.images?.[0] || "/placeholder.png"}
                   alt={product.name}
-                  width={160}
+                  width={190}
                   height={150}
                   className="object-cover transition duration-300 group-hover:scale-105"
                 />
 
                 {/* Hover Overlay */}
-                <div className="absolute inset-0 bg-white/60 opacity-0 group-hover:opacity-100 transition duration-300 flex items-center justify-center">
+                <div className="hidden lg:flex absolute inset-0 bg-white/60 opacity-0 group-hover:opacity-100 transition duration-300  items-center justify-center">
 
                   <button
                     onClick={(e) => {
@@ -133,6 +133,12 @@ const addToCart = useCartStore((state) => state.addToCart);
                   </button>
 
                 </div>
+
+
+
+
+
+
               </div>
 
               {/* Name */}
@@ -157,7 +163,24 @@ const addToCart = useCartStore((state) => state.addToCart);
                 )}
               </div>
 
-                  <p className="capitalize w-fit mx-auto px-10 bg-[#DCFCE7] mt-2 text-teal-900 text-xs rounded-2xl py-1">inclusive of all taxes</p>
+              
+   <div className=" flex md:hidden mt-3   items-center justify-center">
+
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      addToCart(product, 1);
+                    }}
+                    className="bg-[#B97A56] text-white px-4 sm:px-7 py-1.5 sm:py-2 text-xs sm:text-sm font-semibold hover:bg-teal-700 transition"
+                  >
+                    Add to Cart 
+                  </button>
+
+                </div>
+
+                  <p className="capitalize w-fit mx-auto px-2 md:px-10 bg-[#DCFCE7] mt-2 text-teal-900 text-[10px] rounded-2xl py-1">inclusive of all taxes</p>
+
+
 
             </div>
           ))}

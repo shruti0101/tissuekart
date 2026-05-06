@@ -54,7 +54,7 @@ const Footer = () => {
 
           {/* 🔹 Bottom Bar */}
           <div className="flex flex-col items-center justify-center text-sm text-center gap-2 md:flex-row md:justify-between md:text-left">
-            <p>© 2025 Tissue Kart. All Rights Reserved.</p>
+            <p>© 2026 Tissue Kart. All Rights Reserved.</p>
             <p>
               <a href='https://promozionebranding.com/' className="text-yellow-400 hover:underline font-semibold">
                 Website Designing Company

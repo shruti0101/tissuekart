@@ -56,11 +56,10 @@ export default function CartDrawer() {
 
             <div key={index} className="flex gap-4 mb-6">
 
-              <img
-                src={item.images[0]}
-                className="w-[70px] h-[70px] rounded-lg object-cover border"
-              />
-
+         <img
+  src={item.images?.[0] || item.image || "/placeholder.png"}
+  className="w-[70px] h-[70px] rounded-lg object-cover border"
+/>
               <div className="flex-1">
 
                 <h3 className="font-medium text-sm">

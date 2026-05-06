@@ -6,6 +6,7 @@ import { Navigation, Autoplay, Pagination } from "swiper/modules";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import "swiper/css/pagination";
 import PopupForm from "../Popup";
+
 import Link from "next/link";
 
 export default function CategorySection() {
@@ -186,18 +187,16 @@ export default function CategorySection() {
             ))}
           </ul>
 
-           <button className="px-7 py-3 bg-[#00786f] rounded-lg text-white ">View More</button>
+           <Link href="/shop" className="px-7 py-3 bg-[#00786f] rounded-lg text-white ">View More</Link>
 
         </div>
 
         {/* RIGHT IMAGE */}
         <div className="relative flex justify-center z-20">
 
-          <div className="w-full max-w-md lg:max-w-2xl h-[320px] lg:h-[550px] bg-cover bg-center rounded-2xl "
-            style={{
-              backgroundImage: "url('/whychoose/whychoose.webp')",
-            }}
-          />
+      <Image alt="face tissues" width={700} height={500} className="max-w-full h-auto object-contain" src="/whychoose/whychoose.webp">
+
+      </Image>
 
         </div>
 

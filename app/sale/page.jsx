@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { ChevronLeft, ChevronRight, Star } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
+import { useCartStore } from "@/components/store/cartStore";
 export default function Home() {
   // ✅ Testimonials
   const testimonials = [
@@ -33,6 +34,8 @@ export default function Home() {
       rating: 5,
     },
   ];
+
+const addToCart = useCartStore((state) => state.addToCart);
 
   const [index, setIndex] = useState(0);
 
@@ -169,7 +172,10 @@ export default function Home() {
                     </span>
                   </div>
 
-                  <button className="bg-[#1b7677] text-white px-4 py-2 rounded-full text-sm hover:bg-[#e7b70b]">
+                  <button        onClick={(e) => {
+                      e.stopPropagation();
+                      addToCart(product, 1);
+                    }} className="bg-[#1b7677] text-white px-4 py-2 rounded-full text-sm hover:bg-[#e7b70b]">
                     ADD TO CART
                   </button>
                 </div>

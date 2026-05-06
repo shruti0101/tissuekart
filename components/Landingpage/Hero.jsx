@@ -11,7 +11,7 @@ const videos = [
   },
 ];
 
-  const coupons = ["/1.png", "/2.png", "/3.png", "/4.png"]
+  const coupons = ["/1.webp", "/2.webp", "/3.webp", "/4.webp"]
 
 export default function HeroVideo() {
   const [index] = useState(0);
@@ -21,33 +21,24 @@ export default function HeroVideo() {
     <>
     
     
-    <section className="relative bg-[#F3F1F0] w-full h-[25vh]  md:h-[70vh]   xl:h-[120vh] overflow-hidden">
-      
-      {/* VIDEO */}
-      <AnimatePresence mode="wait">
-        <motion.video
-          key={videos[index].id}
-          src={videos[index].src}
-          autoPlay
-          muted
-          loop
-          playsInline
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 0.8, ease: "easeOut" }}
-          className=" max-w-full h-auto object-cover"
-        />
-      </AnimatePresence>
+  <section className="relative bg-[#F3F1F0] mt-16 md:mt-0 w-full h-[25vh] md:h-[70vh] xl:h-[120vh] overflow-hidden">
 
-
-
+  <video
+    key={videos[index].id}
+    src={videos[index].src}
+    autoPlay
+    muted
+    loop
+    playsInline
+    preload="metadata"
  
+    className="w-full h-full object-cover"
+  />
 
-    </section>
+</section>
 
 
-        {/* COUPONS */}
+        {/* coupons */}
       <div className="bg-[#F3F1F0]">
         <section className="w-full py-5">
           <div className="w-full mx-auto  sm:px-7 grid grid-cols-4 sm:gap-8">
