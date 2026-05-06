@@ -120,7 +120,7 @@ const addToCart = useCartStore((state) => state.addToCart);
                 />
 
                 {/* Hover Overlay */}
-                <div className="hidden lg:flex absolute inset-0 bg-white/60 opacity-0 group-hover:opacity-100 transition duration-300  items-center justify-center">
+                <div className="hidden xl:flex absolute inset-0 bg-white/60 opacity-0 group-hover:opacity-100 transition duration-300  items-center justify-center">
 
                   <button
                     onClick={(e) => {
@@ -164,7 +164,7 @@ const addToCart = useCartStore((state) => state.addToCart);
               </div>
 
               
-   <div className=" flex md:hidden mt-3   items-center justify-center">
+   <div className=" flex xl:hidden mt-3   items-center justify-center">
 
                   <button
                     onClick={(e) => {

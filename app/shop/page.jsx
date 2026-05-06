@@ -103,7 +103,7 @@ setFiltered(list);
     
     <section className="  ">
       
-  <div className="bg-[#f3f3f3] mt-10 md:mt-36 ">
+  <div className="bg-[#f3f3f3] mt-15 md:mt-36 ">
 
       {/* HERO */}
       <div className="bg-[#1f6f6c] text-white text-center py-10">
@@ -221,7 +221,7 @@ setFiltered(list);
                       alt={product.name}
                       width={160}
                       height={150}
-                      className="object-cover transition duration-300 group-hover:scale-105"
+                      className="object-contain transition duration-300 group-hover:scale-105"
                     />
 
                     <div className="absolute inset-0 bg-white/60 opacity-0 group-hover:opacity-100 transition flex items-center justify-center">
