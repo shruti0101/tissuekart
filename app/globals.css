@@ -14,3 +14,60 @@ body {
 h1, h2, h3, h4 {
   font-family: var(--font-caladea), serif;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.bold{
+  font-weight: bold;
+  color: black;
+}
+/* in globals.css or styles/globals.css */
+select option {
+  background-color: white !important;
+  color: black !important;
+  
+}
+
+
+.jodit-wysiwyg ul {
+  list-style-type: disc;
+  margin-left: 1.5rem;
+}
+.jodit-wysiwyg ol {
+  list-style-type: decimal;
+  margin-left: 1.5rem;
+}
+.jodit-wysiwyg li {
+  margin: 0.25rem 0;
+}
+
+
+
+/* Fix for unordered lists */
+.prose ul, .blog-content ul {
+  list-style-type: disc;
+  padding-left: 1.5rem;
+}
+
+/* Fix for ordered lists */
+.prose ol, .blog-content ol {
+  list-style-type: decimal;
+  padding-left: 1.5rem;
+}
+
+/* Optional: spacing for list items */
+.prose li, .blog-content li {
+  margin: 0.25rem 0;
+}

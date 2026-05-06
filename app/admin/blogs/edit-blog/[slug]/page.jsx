@@ -73,7 +73,7 @@ export default function Page() {
 };
 
   return (
-    <div className="min-h-screen flex mt-36 bg-gray-100">
+    <div className="min-h-screen flex  bg-gray-100">
       <AdminPannel />
 
       <div className="flex-1 flex flex-col">

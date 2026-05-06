@@ -39,9 +39,19 @@ export default function page() {
     }
   };
 
+  // 🔐 Auth check
+  // useEffect(() => {
+  //   const token = localStorage.getItem("token");
+  //   if (!token) {
+  //     toast.error("Please login first");
+  //     router.push("/login");
+  //   }
+  // }, []);
+  
+
   return (
     <>
-      <div className="flex min-h-screen bg-[#0F172A] text-white mt-36">
+      <div className="flex min-h-screen bg-white text-white ">
         {/* SIDEBAR */}
         <AdminPannel />
 

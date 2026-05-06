@@ -79,7 +79,7 @@ const handleAssignCourier = async (orderId) => {
   };
 
   return (
-    <div className="p-6 md:p-10 bg-gray-50 min-h-screen mt-10 md:mt-32">
+    <div className="p-6 md:p-10 bg-gray-50 min-h-screen ">
       <h1 className="text-3xl font-bold mb-8">📦 Admin Orders</h1>
 
       

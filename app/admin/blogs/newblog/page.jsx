@@ -66,7 +66,7 @@ export default function page() {
   };
   return (
     <>
-      <section className="mt-36 min-h-screen flex">
+      <section className=" min-h-screen flex">
         <AdminPannel />
 
         <div className="flex-1 flex flex-col bg-[#020617] text-white">

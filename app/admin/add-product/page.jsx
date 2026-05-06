@@ -141,7 +141,7 @@ const uploadImages = async (files) => {
   };
 
   return (
-    <div className="p-8 bg-[#F6F7FB] min-h-screen mt-10 md:mt-33">
+    <div className="p-8 bg-[#F6F7FB] min-h-screen">
 
       {/* HEADER */}
       <h1 className="text-2xl font-semibold mb-8 text-gray-800">

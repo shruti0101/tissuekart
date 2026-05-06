@@ -6,10 +6,17 @@ import Footer from "./Footer";
 export default function LayoutWrapper({ children }) {
   const pathname = usePathname();
 
-  const hideNavbarRoutes = ["/login","/register", "/dashboard" , "/admin", "/admin/dashboard"];
-const hideFooterRoutes = ["/login", "/register", "/dashboard" , "/admin", "/admin/dashboard"];
-  const shouldHideNavbar = hideNavbarRoutes.includes(pathname);
-  const shouldHideFooter = hideFooterRoutes.includes(pathname);
+  const hideNavbarRoutes = ["/login","/register", "/dashboard" , "/admin", "/admin/dashboard","/admin/blogs/",];
+
+const hideFooterRoutes = ["/login", "/register", "/dashboard" , "/admin", "/admin/dashboard,/admin/blogs/"];
+
+const shouldHideNavbar =
+  hideNavbarRoutes.includes(pathname) ||
+  pathname.startsWith("/admin");
+
+const shouldHideFooter =
+  hideFooterRoutes.includes(pathname) ||
+  pathname.startsWith("/admin");
 
   return (
     <>

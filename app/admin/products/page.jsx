@@ -158,7 +158,7 @@ const handleUpdate = async () => {
 };
 
   return (
-    <div className="p-8 bg-[#F6F7FB] min-h-screen mt-10 md:mt-35">
+    <div className="p-8 bg-[#F6F7FB] min-h-screen ">
 
       {/* HEADER */}
       <div className="flex justify-between items-center mb-8">
