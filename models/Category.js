@@ -4,6 +4,9 @@ const CategorySchema = new mongoose.Schema({
   name: String,
   slug: String,
   image: String,
+
+    metaTitle: String,
+  metaDescription: String
 });
 
 // ✅ FIXED

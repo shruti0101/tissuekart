@@ -6,7 +6,8 @@ export default function Categories() {
   const [name, setName] = useState("");
   const [categories, setCategories] = useState([]);
   const [editingId, setEditingId] = useState(null);
-
+const [metaTitle, setMetaTitle] = useState("");
+const [metaDescription, setMetaDescription] = useState("");
   // ✅ Fetch categories
   useEffect(() => {
     refreshCategories();
@@ -29,6 +30,8 @@ export default function Categories() {
     const payload = {
       name,
       slug: name.toLowerCase().replace(/\s+/g, "-"),
+        metaTitle,
+  metaDescription,
     };
 
     if (editingId) {
@@ -54,6 +57,8 @@ export default function Categories() {
   // 🔄 Reset
   const resetForm = () => {
     setName("");
+      setMetaTitle("");
+  setMetaDescription("");
     setEditingId(null);
   };
 
@@ -61,6 +66,8 @@ export default function Categories() {
   const handleEdit = (c) => {
     setEditingId(c._id);
     setName(c.name);
+      setMetaTitle(c.metaTitle || "");
+  setMetaDescription(c.metaDescription || "");
   };
 
   // ❌ Delete
@@ -93,6 +100,22 @@ export default function Categories() {
           value={name}
           onChange={(e) => setName(e.target.value)}
         />
+
+
+<input
+  className="w-full border p-2 rounded mb-3"
+  placeholder="Meta Title"
+  value={metaTitle}
+  onChange={(e) => setMetaTitle(e.target.value)}
+/>
+
+<textarea
+  className="w-full border p-2 rounded mb-3"
+  placeholder="Meta Description"
+  value={metaDescription}
+  onChange={(e) => setMetaDescription(e.target.value)}
+/>
+
 
         <div className="flex gap-2">
           <button
