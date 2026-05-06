@@ -11,6 +11,20 @@ const caladea = Caladea({
   variable: "--font-caladea",
 });
 
+
+export const metadata = {
+  title: "Matrix Tissue | Face Tissue, Paper Napkin, Kitchen Towel, Toilet Roll, Butter Paper Roll",
+  description:
+    "Matrix Tissue offers premium Face Tissue, Paper Napkin, Kitchen Towel, Toilet Roll, Butter Paper Roll, and Cake Box solutions for homes, hotels, restaurants, and businesses at competitive prices.",
+
+  icons: {
+    icon: "/favicon.ico", 
+    shortcut: "/favicon.ico",
+    apple: "/apple-touch-icon.png", 
+  },
+};
+
+
 export default function RootLayout({ children }) {
   return (
     <html lang="en" className={caladea.variable}>

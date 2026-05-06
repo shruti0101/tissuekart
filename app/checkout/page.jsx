@@ -157,7 +157,7 @@ export default function CheckoutPage() {
             body: JSON.stringify({
               products: cart,
               total: finalAmount,
-              shippingCharge: shipping, // ✅ FIXED
+              shippingCharge: shipping, 
               paymentMethod: "razorpay",
               ...form,
               razorpay_order_id: response.razorpay_order_id,

@@ -1,7 +1,7 @@
 export const metadata = {
-  title: "About Us | Matrix Tissues",
+  title: "Matrix Tissue Company Profile | Face Tissue, Napkin, Toilet Roll Supplier",
   description:
-    "Matrix Tissues is a trusted tissue manufacturing company providing premium tissue products since 2008.",
+    "Get to know Matrix Tissue, a leading supplier of face tissue, paper napkin, kitchen towel, toilet roll, and butter paper roll, offering reliable and hygienic paper solutions.",
 };
 
 export default function AboutPage() {
