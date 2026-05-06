@@ -14,6 +14,14 @@ export default function CheckoutPage() {
   const [paymentMethod, setPaymentMethod] = useState("online");
   const [shipping, setShipping] = useState(0);
   const [courier, setCourier] = useState("");
+const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+
+useEffect(() => {
+  const token = localStorage.getItem("token");
+  setIsLoggedIn(!!token);
+}, []);
+
 
   const [form, setForm] = useState({
     name: "",
@@ -199,7 +207,14 @@ export default function CheckoutPage() {
 <div className="flex justify-between items-center mb-2">
 
           <h2 className="text-xl font-bold mb-4">Customer Details</h2>
-            <Link href="/login" className="text-md underline text-teal-600 capitalize  animate-pulse mb-4">sign in to get rewards</Link>
+          {!isLoggedIn && (
+  <Link
+    href="/login"
+    className="text-md underline text-teal-600 capitalize animate-pulse mb-4"
+  >
+    sign in to get rewards
+  </Link>
+)}
 </div>
 
           <div className="space-y-4">
@@ -287,11 +302,11 @@ export default function CheckoutPage() {
   <span>₹{shipping}</span>
 </div>
 
-{courier && (
+{/* {courier && (
   <p className="text-xs text-gray-500 mt-1">
     Delivery via {courier}
   </p>
-)}
+)} */}
 
           <div className="border-t mt-2 pt-4 flex justify-between font-bold">
             <span>Total</span>
