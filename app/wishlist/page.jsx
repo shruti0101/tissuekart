@@ -14,7 +14,7 @@ export default function WishlistPage() {
 
   return (
 
-    <section className="bg-gray-50 min-h-screen py-16 px-6  mt-15 md:mt-28">
+    <section className="bg-gray-50 min-h-screen py-16 px-6  mt-12 md:mt-28">
 
       <div className="max-w-7xl mx-auto">
 
@@ -51,7 +51,7 @@ export default function WishlistPage() {
             </p>
 
             <Link
-              href="/"
+              href="/shop"
               className="inline-block bg-[#129c97] text-white px-6 py-3 rounded-lg hover:bg-[#0f7d79] transition"
             >
               Continue Shopping

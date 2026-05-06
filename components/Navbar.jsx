@@ -118,10 +118,10 @@ const categoryImages = {
       {/* MAIN NAV */}
       <motion.div
         animate={{
-          paddingTop: scrolled ? 4 : 8,
-          paddingBottom: scrolled ? 4 : 8,
+          paddingTop: scrolled ? 8 : 8,
+          paddingBottom: scrolled ? 8 : 8,
         }}
-        className="bg-black/20 border-b border-gray-500 text-white"
+        className="bg-black/20 border-b  border-gray-500 text-white"
       >
         <div className="w-full flex items-center justify-between px-4 md:px-8 lg:px-30">
 
@@ -224,7 +224,7 @@ const categoryImages = {
     {/* CATEGORIES */}
     <div>
 
-      <Link className="pb-3" href="/">Home</Link>
+      <Link   onClick={() => setOpen(false)} className="pb-3" href="/">Home</Link>
 
     <hr className="py-3 opacity-25" />
 

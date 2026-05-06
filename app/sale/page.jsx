@@ -54,6 +54,7 @@ const addToCart = useCartStore((state) => state.addToCart);
   // ✅ Products
   const products = [
     {
+      id:1,
       name: "Face Tissue Silk/Vintage",
       category: "Facial Tissue",
       oldPrice: 356,
@@ -61,13 +62,15 @@ const addToCart = useCartStore((state) => state.addToCart);
       image: "/upload/ftv.webp",
     },
     {
-      name: "Papyrus Paper Napkin Silk Touch",
-      category: "Paper Napkin",
-      oldPrice: 387,
-      price: 128,
-      image: "/upload/Silky.webp",
+        id:2,
+      name: "Cake box 10x10x5",
+      category: "Cake Box",
+      oldPrice: 840,
+      price: 210,
+      image: "/sale/2.webp",
     },
     {
+        id:3,
       name: "Kitchen Towel 4ply",
       category: "Kitchen Towel",
       oldPrice: 398,
@@ -75,6 +78,32 @@ const addToCart = useCartStore((state) => state.addToCart);
       image: "/upload/kitchen-towel-4ply.webp",
     },
     {
+        id:4,
+      name: "Paper Napkin Silk",
+      category: " Paper Napkin",
+      oldPrice: 180,
+      price: 111,
+      image: "/sale/1.webp",
+    },
+
+     {
+        id:5,
+      name: "Papyrus Paper Napkin Silk Touch",
+      category: "Paper Napkin",
+      oldPrice: 387,
+      price: 128,
+      image: "/upload/Silky.webp",
+    },
+    {
+        id:6,
+      name: "Kitchen Towel 4ply",
+      category: "Kitchen Towel",
+      oldPrice: 398,
+      price: 200,
+      image: "/upload/kitchen-towel-4ply.webp",
+    },
+    {
+        id:7,
       name: "Butter Paper Roll 1kg",
       category: "Butter Paper",
       oldPrice: 599,
@@ -83,33 +112,15 @@ const addToCart = useCartStore((state) => state.addToCart);
     },
 
      {
-      name: "Papyrus Paper Napkin Silk Touch",
-      category: "Paper Napkin",
-      oldPrice: 387,
+        id:8,
+      name: "Cake base 10inch",
+      category: "Cake Box",
+      oldPrice: 512,
       price: 128,
-      image: "/upload/Silky.webp",
+      image: "/sale/3.webp",
     },
-    {
-      name: "Kitchen Towel 4ply",
-      category: "Kitchen Towel",
-      oldPrice: 398,
-      price: 200,
-      image: "/upload/kitchen-towel-4ply.webp",
-    },
-    {
-      name: "Butter Paper Roll 1kg",
-      category: "Butter Paper",
-      oldPrice: 599,
-      price: 289,
-      image: "/upload/butterpaper2.webp",
-    },
-        {
-      name: "Butter Paper Roll 1kg",
-      category: "Butter Paper",
-      oldPrice: 599,
-      price: 289,
-      image: "/upload/butterpaper2.webp",
-    },
+      
+      
   ];
 
   return (
@@ -173,9 +184,16 @@ const addToCart = useCartStore((state) => state.addToCart);
                   </div>
 
                   <button        onClick={(e) => {
-                      e.stopPropagation();
-                      addToCart(product, 1);
-                    }} className="bg-[#1b7677] text-white px-4 py-2 rounded-full text-sm hover:bg-[#e7b70b]">
+  e.stopPropagation();
+  addToCart(
+    {
+      ...product,
+      _id: product.id,
+      images: [product.image],
+    },
+    1
+  );
+}} className="bg-[#1b7677] text-white px-4 py-2 rounded-full text-sm hover:bg-[#e7b70b]">
                     ADD TO CART
                   </button>
                 </div>

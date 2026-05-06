@@ -103,11 +103,11 @@ setFiltered(list);
     
     <section className="  ">
       
-  <div className="bg-[#f3f3f3] mt-15 md:mt-36 ">
+  <div className="bg-[#f3f3f3] mt-15 md:mt-36 overflow-hidden">
 
       {/* HERO */}
       <div className="bg-[#1f6f6c] text-white text-center py-10">
-        <h1 className="text-3xl md:text-4xl font-semibold">
+        <h1 className="text-2xl md:text-4xl font-semibold">
           Explore Our Premium Tissue Collection
         </h1>
         <p className="text-sm mt-3 opacity-90">
@@ -215,7 +215,7 @@ setFiltered(list);
                     papyrus
                   </p>
 
-                  <div className="relative group flex justify-center items-center mb-4 h-[130px] sm:h-[150px] overflow-hidden">
+                  <div className="relative group flex justify-center items-center mb-4 h-h-[150px] overflow-hidden">
                     <Image
                       src={product.images?.[0] || "/placeholder.png"}
                       alt={product.name}
@@ -224,7 +224,7 @@ setFiltered(list);
                       className="object-contain transition duration-300 group-hover:scale-105"
                     />
 
-                    <div className="absolute inset-0 bg-white/60 opacity-0 group-hover:opacity-100 transition flex items-center justify-center">
+                    <div className="hidden lg:flex absolute inset-0 bg-white/60 opacity-0 group-hover:opacity-100 transition  items-center justify-center">
                       <button
                         onClick={(e) => {
                           e.stopPropagation();
@@ -245,11 +245,16 @@ setFiltered(list);
                   >
                     {product.name}
                   </div>
+
+
+
+ 
+
 <div className="flex justify-between gap-2 items-center mt-auto">
 
 <Link href={`/product/${product.slug}`}
-  className="bg-teal-700 p-2 rounded-lg text-white">
-    view details
+  className="text-xs md:text-sm bg-teal-700 px-2 py-1  rounded-lg text-white">
+    View Details
 </Link>
                   <div className="flex justify-center gap-2 items-center mt-auto">
                     <span className="text-teal-700 font-semibold text-base sm:text-lg">
@@ -262,15 +267,37 @@ setFiltered(list);
                         ₹{product.oldPrice}
                       </span>
                     )}
+
+
+
+                    
 </div>
+
 
 
                    
                   </div>
+  <div className=" flex xl:hidden mt-3   items-center justify-center">
+
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      addToCart(product, 1);
+                    }}
+                    className="bg-[#B97A56] text-white px-4 sm:px-7 py-1.5 sm:py-2 text-xs sm:text-sm font-semibold hover:bg-teal-700 transition"
+                  >
+                    Add to Cart 
+                  </button>
+
+                </div>
+                  
                 </div>
               ))}
 
             </div>
+
+
+            
           )}
         </div>
       </div>

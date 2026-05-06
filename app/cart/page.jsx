@@ -28,7 +28,7 @@ export default function CartPage() {
             </h2>
 
             <Link
-              href="/"
+              href="/shop"
               className="inline-block bg-[#129c97] text-white px-6 py-3 rounded-lg"
             >
               Continue Shopping
@@ -149,7 +149,7 @@ export default function CartPage() {
               </Link>
 
               <Link
-                href="/"
+                href="/shop"
                 className="block text-center mt-4 text-sm text-gray-500 hover:text-black"
               >
                 Continue Shopping

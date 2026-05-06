@@ -29,7 +29,7 @@ export default function OrderSuccess() {
         )}
 
         <button
-          onClick={() => router.push("/")}
+          onClick={() => router.push("/shop")}
           className="bg-[#05847b] text-white px-6 py-3 rounded-lg w-full"
         >
           Continue Shopping

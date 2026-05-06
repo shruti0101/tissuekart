@@ -17,8 +17,8 @@ export default function BulkEnquiryForm() {
 
     const data = {
 
-      platform: "Matrix Tissue Bulk Enquiry",
-      platformEmail: "sales@matrixtissue.com",
+      platform: "Tissuekart Bulk Enquiry",
+      platformEmail: "matrixtissues@gmail.com",
 
       name: formData.get("name"),
       email: formData.get("email"),
