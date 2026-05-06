@@ -120,13 +120,13 @@ const handleWishlist = () => {
 
     {/* Images */}
     <div>
-      <div className="shadow-sm rounded-md overflow-hidden border h-[300px] sm:h-[400px] md:h-[500px] lg:h-[540px] border-gray-300 flex items-center justify-center">
+      <div className="shadow-sm rounded-md overflow-hidden  w h-[300px] sm:h-[400px] md:h-[500px] lg:h-[610px]  flex items-center justify-center">
         <Image
           src={activeImage}
           alt={product.name}
           width={1000}
           height={800}
-          className="object-contain max-h-full"
+          className="object-contain md:object-cover  max-h-full"
         />
       </div>
 
@@ -231,7 +231,7 @@ const handleWishlist = () => {
       <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:gap-6 mt-6">
         <button
           onClick={addToCart}
-          className="bg-[#129c97] w-full sm:w-auto px-6 sm:px-20 md:px-32 lg:px-40 py-3 rounded-lg text-white font-semibold text-sm sm:text-base"
+          className="bg-[#129c97] w-full sm:w-auto px-6 sm:px-20 xl:px-30  py-3 rounded-lg text-white font-semibold text-sm sm:text-base"
         >
           ADD TO CART
         </button>

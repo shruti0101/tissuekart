@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useCartStore } from "@/components/store/cartStore";
 import { useRouter } from "next/navigation";
 import { toast } from "react-hot-toast";
+import Link from "next/link";
 
 export default function CheckoutPage() {
   const { cart, totalPrice, clearCart } = useCartStore();
@@ -28,13 +29,13 @@ export default function CheckoutPage() {
   const finalAmount = Math.max(0, totalPrice() - TOKEN_DISCOUNT + shipping);
 
   // 🔐 Auth check
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-    if (!token) {
-      toast.error("Please login first");
-      router.push("/login");
-    }
-  }, []);
+  // useEffect(() => {
+  //   const token = localStorage.getItem("token");
+  //   if (!token) {
+  //     toast.error("Please login first");
+  //     router.push("/login");
+  //   }
+  // }, []);
 
   // 📦 Fetch shipping
   useEffect(() => {
@@ -195,7 +196,11 @@ export default function CheckoutPage() {
         {/* LEFT FORM */}
         <div className="lg:col-span-2 bg-white p-6 rounded-lg shadow">
 
+<div className="flex justify-between items-center mb-2">
+
           <h2 className="text-xl font-bold mb-4">Customer Details</h2>
+            <Link href="/login" className="text-md underline text-teal-600 capitalize  animate-pulse mb-4">sign in to get rewards</Link>
+</div>
 
           <div className="space-y-4">
             <input name="name" value={form.name} onChange={handleChange} placeholder="Name"
