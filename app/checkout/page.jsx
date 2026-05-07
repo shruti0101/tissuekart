@@ -207,11 +207,10 @@ useEffect(() => {
 <div className="flex justify-between items-center mb-2">
 
           <h2 className="text-xl font-bold mb-4">Customer Details</h2>
-          {!isLoggedIn && (
-  <Link
-    href="/login"
-    className="text-md underline text-teal-600 capitalize animate-pulse mb-4"
-  >
+{isLoggedIn ? (
+  <p className="text-green-600 text-sm mb-4">🎉 Rewards Applied</p>
+) : (
+  <Link href="/login" className="text-md underline text-teal-600 animate-pulse mb-4">
     sign in to get rewards
   </Link>
 )}
