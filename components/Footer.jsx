@@ -15,7 +15,7 @@ const Footer = () => {
             {[
               { label: "About Us", href: "/about-us" },
               { label: "Frequently Asked Questions", href: "/faq" },
-              { label: "Return & Refund Policy", href: "return-refund" },
+              { label: "Return & Refund Policy", href: "/return&refund" },
               { label: "Shipping & Cancellations", href: "/shipping-cancellation-policy" },
               { label: "Privacy Policy", href: "/privacy-policy" },
               { label: "Terms & Conditions", href: "/terms-conditions" },
