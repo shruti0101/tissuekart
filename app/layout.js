@@ -1,5 +1,6 @@
 import { Caladea } from "next/font/google";
 import "./globals.css";
+import Script from "next/script";
 
 import CartDrawer from "@/components/cartDrawer";
 import { Toaster } from "react-hot-toast";
