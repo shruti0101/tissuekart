@@ -3,7 +3,13 @@
 import { useState } from "react"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
+import { useSearchParams } from "next/navigation";
 export default function LoginPage() {
+
+
+const searchParams = useSearchParams();
+
+const redirect = searchParams.get("redirect") || "/";
 
   const router = useRouter()
 
@@ -33,7 +39,7 @@ export default function LoginPage() {
 if (data.user.role === "admin") {
   router.push("/admin")
 } else {
-  router.push("/checkout")
+router.push(redirect);
 }
 
   }

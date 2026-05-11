@@ -210,9 +210,12 @@ useEffect(() => {
 {isLoggedIn ? (
   <p className="text-green-600 text-sm mb-4">🎉 Rewards Applied</p>
 ) : (
-  <Link href="/login" className="text-md underline text-teal-600 animate-pulse mb-4">
-    sign in to get rewards
-  </Link>
+ <Link
+  href="/login?redirect=/checkout"
+  className="text-md underline text-teal-600 animate-pulse mb-4"
+>
+  sign in to get rewards
+</Link>
 )}
 </div>
 
