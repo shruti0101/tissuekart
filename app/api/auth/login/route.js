@@ -36,6 +36,7 @@ export async function POST(req) {
   // CREATE RESPONSE
   const response = NextResponse.json({
     success: true,
+      token,
     user,
   });
 

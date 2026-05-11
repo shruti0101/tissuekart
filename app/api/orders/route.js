@@ -24,9 +24,9 @@ export async function POST(req) {
   await connectDB();
 
   const user = getUser(req);
-  if (!user) {
-    return Response.json({ msg: "Unauthorized" }, { status: 401 });
-  }
+  // if (!user) {
+  //   return Response.json({ msg: "Unauthorized" }, { status: 401 });
+  // }
 
   const data = await req.json();
 
@@ -81,27 +81,27 @@ export async function POST(req) {
   // ================= CREATE ORDER =================
   const orderId = `MT-${uuidv4().slice(0, 8)}`;
 
-  const order = await Order.create({
-    orderId,
-    userId: user.id,
-    products,
-    total,
-    shippingCharge: shippingCharge || 0,
-    paymentMethod,
-    paymentStatus,
-    paymentId: razorpay_payment_id || null,
-    razorpayOrderId: razorpay_order_id || null,
+const order = await Order.create({
+  orderId,
+  userId: user?.id || null,
+  products,
+  total,
+  shippingCharge: shippingCharge || 0,
+  paymentMethod,
+  paymentStatus,
+  paymentId: razorpay_payment_id || null,
+  razorpayOrderId: razorpay_order_id || null,
 
-    name,
-    email,
-    phone,
-    address,
-    pincode,
-    city,
-    state,
+  name,
+  email,
+  phone,
+  address,
+  pincode,
+  city,
+  state,
 
-    status: paymentStatus === "paid" ? "paid" : "pending",
-  });
+  status: paymentStatus === "paid" ? "paid" : "pending",
+});
 
   // ================= SHIPROCKET =================
   try {
