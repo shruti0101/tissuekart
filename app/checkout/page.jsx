@@ -92,13 +92,30 @@ useEffect(() => {
     });
   };
 
-  const validate = () => {
-    if (!form.name || !form.phone || !form.address || !form.pincode || !form.city || !form.state) {
-      toast.error("Please fill all fields");
-      return false;
-    }
-    return true;
-  };
+const validate = () => {
+  if (
+    !form.name ||
+    !form.phone ||
+    !form.email ||
+    !form.address ||
+    !form.pincode ||
+    !form.city ||
+    !form.state
+  ) {
+    toast.error("Please fill all fields");
+    return false;
+  }
+
+  // Email validation
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+  if (!emailRegex.test(form.email)) {
+    toast.error("Please enter a valid email");
+    return false;
+  }
+
+  return true;
+};
 
   // ================= MAIN CHECKOUT =================
   const handleCheckout = async () => {
