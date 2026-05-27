@@ -161,8 +161,10 @@ export default function Dashboard() {
                  
                   </div>
 
-                  <div className="text-2xl font-bold text-gray-900">
+                  <div className="text-2xl text-end font-bold text-gray-900">
                     ₹{order.total}
+                    <br/>
+                    <button className=" bg-red-600 text-base text-white p-1.5 md:p-2 rounded-xl">Cancel Order</button>
                   </div>
 
                 </div>

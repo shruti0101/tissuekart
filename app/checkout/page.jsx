@@ -277,11 +277,7 @@ const validate = () => {
               <span className="ml-3 text-teal-600 font-semibold">Pay Online</span>
             </label>
 
-            <label className="flex items-center border p-4 rounded-lg cursor-pointer">
-              <input type="radio" checked={paymentMethod === "cod"}
-                onChange={() => setPaymentMethod("cod")} />
-              <span className="ml-3 font-semibold">Cash on Delivery</span>
-            </label>
+           
           </div>
 
           <button
