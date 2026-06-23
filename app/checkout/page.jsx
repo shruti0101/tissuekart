@@ -270,15 +270,43 @@ const validate = () => {
           {/* PAYMENT */}
           <h2 className="text-xl font-bold mt-6 mb-4">Payment Method</h2>
 
-          <div className="space-y-3">
-            <label className="flex items-center border p-4 rounded-lg cursor-pointer">
-              <input type="radio" checked={paymentMethod === "online"}
-                onChange={() => setPaymentMethod("online")} />
-              <span className="ml-3 text-teal-600 font-semibold">Pay Online</span>
-            </label>
+       <div className="space-y-3">
+  <label
+    className={`flex items-center border p-4 rounded-lg cursor-pointer transition ${
+      paymentMethod === "online"
+        ? "border-teal-600 bg-teal-50"
+        : "border-gray-200"
+    }`}
+  >
+    <input
+      type="radio"
+      name="paymentMethod"
+      checked={paymentMethod === "online"}
+      onChange={() => setPaymentMethod("online")}
+    />
+    <span className="ml-3 text-teal-600 font-semibold">
+      Pay Online 
+    </span>
+  </label>
 
-           
-          </div>
+  <label
+    className={`flex items-center border p-4 rounded-lg cursor-pointer transition ${
+      paymentMethod === "cod"
+        ? "border-teal-600 bg-teal-50"
+        : "border-gray-200"
+    }`}
+  >
+    <input
+      type="radio"
+      name="paymentMethod"
+      checked={paymentMethod === "cod"}
+      onChange={() => setPaymentMethod("cod")}
+    />
+    <span className="ml-3 font-semibold text-gray-700">
+      Cash on Delivery (COD)
+    </span>
+  </label>
+</div>
 
           <button
             onClick={handleCheckout}
