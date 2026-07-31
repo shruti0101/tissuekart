@@ -5,7 +5,6 @@ import toast from "react-hot-toast";
 import JoditEditor from "jodit-react";
 
 export default function ProductList() {
-
   const editor = useRef(null);
 
   const [products, setProducts] = useState([]);
@@ -18,7 +17,9 @@ export default function ProductList() {
 
   useEffect(() => {
     fetchProducts();
-    fetch("/api/categories").then(res => res.json()).then(setCategories);
+    fetch("/api/categories")
+      .then((res) => res.json())
+      .then(setCategories);
   }, []);
 
   const fetchProducts = async () => {
@@ -34,8 +35,6 @@ export default function ProductList() {
     const toastId = toast.loading("Deleting...");
 
     const token = localStorage.getItem("token");
-
-
 
     if (!token) {
       toast.error("User not logged in ❌", { id: toastId });
@@ -61,7 +60,6 @@ export default function ProductList() {
       setProducts((prev) => prev.filter((p) => p._id !== id));
 
       toast.success("Deleted ✅", { id: toastId });
-
     } catch (err) {
       console.error(err);
       toast.error("Something went wrong ❌", { id: toastId });
@@ -74,9 +72,7 @@ export default function ProductList() {
 
     setFiles(selectedFiles);
 
-    const previews = selectedFiles.map((file) =>
-      URL.createObjectURL(file)
-    );
+    const previews = selectedFiles.map((file) => URL.createObjectURL(file));
 
     setPreviewImages(previews);
   };
@@ -85,7 +81,10 @@ export default function ProductList() {
   const addSpec = () => {
     setEditing({
       ...editing,
-      specifications: [...(editing.specifications || []), { key: "", value: "" }],
+      specifications: [
+        ...(editing.specifications || []),
+        { key: "", value: "" },
+      ],
     });
   };
 
@@ -117,39 +116,30 @@ export default function ProductList() {
         "category",
         typeof editing.category === "object"
           ? editing.category._id
-          : editing.category
+          : editing.category,
       );
 
       formData.append("description", editing.description || "");
       formData.append("longdescription", editing.longdescription || "");
       formData.append("stock", editing.stock);
 
-      formData.append(
-        "features",
-        JSON.stringify(editing.features || [])
-      );
+      formData.append("features", JSON.stringify(editing.features || []));
 
       formData.append(
         "specifications",
-        JSON.stringify(editing.specifications || [])
+        JSON.stringify(editing.specifications || []),
       );
 
-      formData.append(
-        "oldImages",
-        JSON.stringify(editing.images || [])
-      );
+      formData.append("oldImages", JSON.stringify(editing.images || []));
 
       files.forEach((file) => {
         formData.append("newImages", file);
       });
 
-      const res = await fetch(
-        `/api/products/update/${editing._id}`,
-        {
-          method: "PUT",
-          body: formData,
-        }
-      );
+      const res = await fetch(`/api/products/update/${editing._id}`, {
+        method: "PUT",
+        body: formData,
+      });
 
       const data = await res.json();
 
@@ -164,7 +154,7 @@ export default function ProductList() {
       // Optional
       fetchProducts();
       setEditing(null);
-
+      setPreviewImages([]);
     } catch (err) {
       console.error(err);
 
@@ -189,14 +179,15 @@ export default function ProductList() {
 
   return (
     <div className="p-8 bg-[#F6F7FB] min-h-screen ">
-
       {/* HEADER */}
       <div className="flex justify-between items-center mb-8">
         <h1 className="text-2xl md:text-4xl font-semibold">All Products</h1>
 
         {editing && (
           <button
-            onClick={() => { setEditing(null), fetchProducts() }}
+            onClick={() => {
+              (setEditing(null), fetchProducts());
+            }}
             className="bg-gray-200 px-4 py-2 rounded-lg"
           >
             Cancel Edit
@@ -207,10 +198,8 @@ export default function ProductList() {
       {/* 🔥 EDIT MODE (FULL FORM) */}
       {editing && (
         <div className="grid md:grid-cols-3 gap-6 mb-10">
-
           {/* LEFT */}
           <div className="md:col-span-2 space-y-6">
-
             <div className="bg-white p-6 rounded-2xl shadow-sm">
               <h2 className="mb-4 font-semibold">Basic Info</h2>
 
@@ -258,7 +247,9 @@ export default function ProductList() {
               >
                 <option>Select Category</option>
                 {categories.map((c) => (
-                  <option key={c._id} value={c._id}>{c.name}</option>
+                  <option key={c._id} value={c._id}>
+                    {c.name}
+                  </option>
                 ))}
               </select>
             </div>
@@ -299,7 +290,10 @@ export default function ProductList() {
             <div className="bg-white p-6 rounded-2xl shadow-sm">
               <div className="flex justify-between mb-4">
                 <h2>Specifications</h2>
-                <button onClick={addSpec} className="bg-black text-white px-3 py-1 rounded">
+                <button
+                  onClick={addSpec}
+                  className="bg-black text-white px-3 py-1 rounded"
+                >
                   + Add
                 </button>
               </div>
@@ -320,12 +314,10 @@ export default function ProductList() {
                 </div>
               ))}
             </div>
-
           </div>
 
           {/* RIGHT */}
           <div className="space-y-6">
-
             <div className="bg-white p-6 rounded-2xl shadow-sm">
               <select
                 value={editing.stock}
@@ -344,7 +336,6 @@ export default function ProductList() {
               <input type="file" multiple onChange={handleImageChange} />
 
               <div className="flex flex-wrap gap-3 mt-4">
-
                 {/* ✅ OLD IMAGES */}
                 {editing?.images?.map((img, i) => (
                   <div key={i} className="relative">
@@ -366,10 +357,7 @@ export default function ProductList() {
                 {/* ✅ NEW PREVIEW IMAGES */}
                 {previewImages.map((src, i) => (
                   <div key={i} className="relative">
-                    <img
-                      src={src}
-                      className="w-24 h-24 object-cover rounded"
-                    />
+                    <img src={src} className="w-24 h-24 object-cover rounded" />
 
                     {/* ❌ REMOVE NEW */}
                     <button
@@ -389,9 +377,7 @@ export default function ProductList() {
             >
               Update Product
             </button>
-
           </div>
-
         </div>
       )}
 
@@ -402,33 +388,31 @@ export default function ProductList() {
             p?.images && p.images.length > 0
               ? p.images[0].url
               : "/no-image.png";
-          return (<div key={p._id} className="bg-white p-3 rounded-xl shadow-sm">
-            <img
-              src={imageUrl}
-              className="w-full h-32 object-cover rounded"
-            />
-            <h3 className="mt-2 text-sm">{p.name}</h3>
+          return (
+            <div key={p._id} className="bg-white p-3 rounded-xl shadow-sm">
+              <img
+                src={imageUrl}
+                className="w-full h-32 object-cover rounded"
+              />
+              <h3 className="mt-2 text-sm">{p.name}</h3>
 
-            <div className="flex gap-2 mt-3">
+              <div className="flex gap-2 mt-3">
+                <button
+                  onClick={() => setEditing(p)}
+                  className="flex-1 bg-gray-100 hover:bg-gray-200 text-sm py-2 rounded-lg transition"
+                >
+                  Edit
+                </button>
 
-
-              <button
-                onClick={() => setEditing(p)}
-                className="flex-1 bg-gray-100 hover:bg-gray-200 text-sm py-2 rounded-lg transition"
-              >
-                Edit
-              </button>
-
-              <button
-                onClick={() => handleDelete(p._id)}
-                className="flex-1  bg-red-500 hover:bg-red-600 text-white text-sm py-2 rounded-lg transition"
-              >
-                Delete
-              </button>
-
+                <button
+                  onClick={() => handleDelete(p._id)}
+                  className="flex-1  bg-red-500 hover:bg-red-600 text-white text-sm py-2 rounded-lg transition"
+                >
+                  Delete
+                </button>
+              </div>
             </div>
-          </div>)
-
+          );
         })}
       </div>
     </div>
