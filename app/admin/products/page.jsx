@@ -14,7 +14,7 @@ export default function ProductList() {
   const [uploading, setUploading] = useState(false);
 
   const [previewImages, setPreviewImages] = useState([]);
-const [files, setFiles] = useState([]);
+  const [files, setFiles] = useState([]);
 
   useEffect(() => {
     fetchProducts();
@@ -30,56 +30,56 @@ const [files, setFiles] = useState([]);
   console.log(products);
 
   // ✅ DELETE
-const handleDelete = async (id) => {
-  const toastId = toast.loading("Deleting...");
+  const handleDelete = async (id) => {
+    const toastId = toast.loading("Deleting...");
 
-  const token = localStorage.getItem("token");
+    const token = localStorage.getItem("token");
 
 
 
-  if (!token) {
-    toast.error("User not logged in ❌", { id: toastId });
-    return;
-  }
-
-  try {
-    const res = await fetch(`/api/products/delete/${id}`, {
-      method: "DELETE",
-      headers: {
-        Authorization: `Bearer ${token}`, // ✅ IMPORTANT
-      },
-    });
-
-    const data = await res.json();
-    console.log(data);
-
-    if (!res.ok) {
-      toast.error(data.msg || "Delete failed ❌", { id: toastId });
+    if (!token) {
+      toast.error("User not logged in ❌", { id: toastId });
       return;
     }
 
-    setProducts((prev) => prev.filter((p) => p._id !== id));
+    try {
+      const res = await fetch(`/api/products/delete/${id}`, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${token}`, // ✅ IMPORTANT
+        },
+      });
 
-    toast.success("Deleted ✅", { id: toastId });
+      const data = await res.json();
+      console.log(data);
 
-  } catch (err) {
-    console.error(err);
-    toast.error("Something went wrong ❌", { id: toastId });
-  }
-};
+      if (!res.ok) {
+        toast.error(data.msg || "Delete failed ❌", { id: toastId });
+        return;
+      }
+
+      setProducts((prev) => prev.filter((p) => p._id !== id));
+
+      toast.success("Deleted ✅", { id: toastId });
+
+    } catch (err) {
+      console.error(err);
+      toast.error("Something went wrong ❌", { id: toastId });
+    }
+  };
 
   // ✅ IMAGE UPLOAD
- const handleImageChange = (e) => {
-  const selectedFiles = Array.from(e.target.files);
+  const handleImageChange = (e) => {
+    const selectedFiles = Array.from(e.target.files);
 
-  setFiles(selectedFiles);
+    setFiles(selectedFiles);
 
-  const previews = selectedFiles.map((file) =>
-    URL.createObjectURL(file)
-  );
+    const previews = selectedFiles.map((file) =>
+      URL.createObjectURL(file)
+    );
 
-  setPreviewImages(previews);
-};
+    setPreviewImages(previews);
+  };
 
   // ✅ SPEC FUNCTIONS
   const addSpec = () => {
@@ -103,70 +103,89 @@ const handleDelete = async (id) => {
   };
 
   //  UPDATE
-const updateProduct = async () => {
-  try {
-    const formData = new FormData();
+  const updateProduct = async () => {
+    const toastId = toast.loading("Updating product...");
 
-    // ✅ text fields
-    formData.append("name", editing.name);
-    formData.append("price", editing.price);
-    formData.append("oldPrice", editing.oldPrice || "");
-    formData.append("category", editing.category);
-    formData.append("description", editing.description || "");
-    formData.append("longdescription", editing.longdescription || "");
-    formData.append("stock", editing.stock);
+    try {
+      const formData = new FormData();
 
-    formData.append(
-      "features",
-      JSON.stringify(editing.features || [])
-    );
+      formData.append("name", editing.name);
+      formData.append("price", editing.price);
+      formData.append("oldPrice", editing.oldPrice || "");
 
-    formData.append(
-      "specifications",
-      JSON.stringify(editing.specifications || [])
-    );
+      formData.append(
+        "category",
+        typeof editing.category === "object"
+          ? editing.category._id
+          : editing.category
+      );
 
-    // ✅ send remaining OLD images
-    formData.append(
-      "oldImages",
-      JSON.stringify(editing.images || [])
-    );
+      formData.append("description", editing.description || "");
+      formData.append("longdescription", editing.longdescription || "");
+      formData.append("stock", editing.stock);
 
-    // ✅ send NEW images
-    files.forEach((file) => {
-      formData.append("newImages", file);
-    });
-    console.log(editing._id);
+      formData.append(
+        "features",
+        JSON.stringify(editing.features || [])
+      );
 
-    const res = await fetch(`/api/products/update/${editing._id}`, {
-  method: "PUT",
-  body: formData, 
-});
+      formData.append(
+        "specifications",
+        JSON.stringify(editing.specifications || [])
+      );
 
-    const data = await res.json();
+      formData.append(
+        "oldImages",
+        JSON.stringify(editing.images || [])
+      );
 
-    if (!res.ok) throw new Error(data.message);
+      files.forEach((file) => {
+        formData.append("newImages", file);
+      });
 
-    alert("Updated Successfully ✅");
+      const res = await fetch(
+        `/api/products/update/${editing._id}`,
+        {
+          method: "PUT",
+          body: formData,
+        }
+      );
 
-  } catch (err) {
-    console.error(err);
-    alert("Update Failed ❌");
-  }
-};
+      const data = await res.json();
 
-const removeOldImage = (index) => {
-  const updated = editing.images.filter((_, i) => i !== index);
-  setEditing({ ...editing, images: updated });
-};
+      if (!res.ok) {
+        throw new Error(data.msg || "Update failed");
+      }
 
-const removeNewImage = (index) => {
-  const updatedFiles = files.filter((_, i) => i !== index);
-  const updatedPreview = previewImages.filter((_, i) => i !== index);
+      toast.success("Product updated successfully ✅", {
+        id: toastId,
+      });
 
-  setFiles(updatedFiles);
-  setPreviewImages(updatedPreview);
-};
+      // Optional
+      fetchProducts();
+      setEditing(null);
+
+    } catch (err) {
+      console.error(err);
+
+      toast.error(err.message || "Update failed ❌", {
+        id: toastId,
+      });
+    }
+  };
+
+  const removeOldImage = (index) => {
+    const updated = editing.images.filter((_, i) => i !== index);
+    setEditing({ ...editing, images: updated });
+  };
+
+  const removeNewImage = (index) => {
+    const updatedFiles = files.filter((_, i) => i !== index);
+    const updatedPreview = previewImages.filter((_, i) => i !== index);
+
+    setFiles(updatedFiles);
+    setPreviewImages(updatedPreview);
+  };
 
   return (
     <div className="p-8 bg-[#F6F7FB] min-h-screen ">
@@ -177,7 +196,7 @@ const removeNewImage = (index) => {
 
         {editing && (
           <button
-            onClick={() => setEditing(null)}
+            onClick={() => { setEditing(null), fetchProducts() }}
             className="bg-gray-200 px-4 py-2 rounded-lg"
           >
             Cancel Edit
@@ -224,9 +243,16 @@ const removeNewImage = (index) => {
               </div>
 
               <select
-                value={editing.category}
+                value={
+                  typeof editing.category === "object"
+                    ? editing.category._id
+                    : editing.category || ""
+                }
                 onChange={(e) =>
-                  setEditing({ ...editing, category: e.target.value })
+                  setEditing({
+                    ...editing,
+                    category: e.target.value,
+                  })
                 }
                 className="w-full border p-3 rounded-lg mt-3"
               >
@@ -314,51 +340,51 @@ const removeNewImage = (index) => {
             </div>
 
             {/* IMAGES */}
-          <div className="bg-white p-6 rounded-2xl shadow-sm">
-  <input type="file" multiple onChange={handleImageChange} />
+            <div className="bg-white p-6 rounded-2xl shadow-sm">
+              <input type="file" multiple onChange={handleImageChange} />
 
-  <div className="flex flex-wrap gap-3 mt-4">
+              <div className="flex flex-wrap gap-3 mt-4">
 
-    {/* ✅ OLD IMAGES */}
-    {editing?.images?.map((img, i) => (
-      <div key={i} className="relative">
-        <img
-          src={img.url}
-          className="w-24 h-24 object-cover rounded"
-        />
+                {/* ✅ OLD IMAGES */}
+                {editing?.images?.map((img, i) => (
+                  <div key={i} className="relative">
+                    <img
+                      src={img.url}
+                      className="w-24 h-24 object-cover rounded"
+                    />
 
-        {/* ❌ REMOVE OLD */}
-        <button
-          onClick={() => removeOldImage(i)}
-          className="absolute top-0 right-0 bg-red-500 text-white text-xs px-1 rounded"
-        >
-          ✕
-        </button>
-      </div>
-    ))}
+                    {/* ❌ REMOVE OLD */}
+                    <button
+                      onClick={() => removeOldImage(i)}
+                      className="absolute top-0 right-0 bg-red-500 text-white text-xs px-1 rounded"
+                    >
+                      ✕
+                    </button>
+                  </div>
+                ))}
 
-    {/* ✅ NEW PREVIEW IMAGES */}
-    {previewImages.map((src, i) => (
-      <div key={i} className="relative">
-        <img
-          src={src}
-          className="w-24 h-24 object-cover rounded"
-        />
+                {/* ✅ NEW PREVIEW IMAGES */}
+                {previewImages.map((src, i) => (
+                  <div key={i} className="relative">
+                    <img
+                      src={src}
+                      className="w-24 h-24 object-cover rounded"
+                    />
 
-        {/* ❌ REMOVE NEW */}
-        <button
-          onClick={() => removeNewImage(i)}
-          className="absolute top-0 right-0 bg-black text-white text-xs px-1 rounded"
-        >
-          ✕
-        </button>
-      </div>
-    ))}
-  </div>
-</div>
+                    {/* ❌ REMOVE NEW */}
+                    <button
+                      onClick={() => removeNewImage(i)}
+                      className="absolute top-0 right-0 bg-black text-white text-xs px-1 rounded"
+                    >
+                      ✕
+                    </button>
+                  </div>
+                ))}
+              </div>
+            </div>
 
             <button
-               onClick={updateProduct}
+              onClick={updateProduct}
               className="w-full bg-black text-white py-3 rounded-xl"
             >
               Update Product
@@ -373,10 +399,10 @@ const removeNewImage = (index) => {
       <div className="grid grid-cols-2 md:grid-cols-4 gap-5">
         {products.map((p) => {
           const imageUrl =
-  p?.images && p.images.length > 0
-    ? p.images[0].url
-    : "/no-image.png";
-          return ( <div key={p._id} className="bg-white p-3 rounded-xl shadow-sm">
+            p?.images && p.images.length > 0
+              ? p.images[0].url
+              : "/no-image.png";
+          return (<div key={p._id} className="bg-white p-3 rounded-xl shadow-sm">
             <img
               src={imageUrl}
               className="w-full h-32 object-cover rounded"
@@ -384,26 +410,26 @@ const removeNewImage = (index) => {
             <h3 className="mt-2 text-sm">{p.name}</h3>
 
             <div className="flex gap-2 mt-3">
-      
 
-  <button
-    onClick={() => setEditing(p)}
-    className="flex-1 bg-gray-100 hover:bg-gray-200 text-sm py-2 rounded-lg transition"
-  >
-    Edit
-  </button>
 
-  <button
-    onClick={() => handleDelete(p._id)}
-    className="flex-1  bg-red-500 hover:bg-red-600 text-white text-sm py-2 rounded-lg transition"
-  >
-    Delete
-  </button>
+              <button
+                onClick={() => setEditing(p)}
+                className="flex-1 bg-gray-100 hover:bg-gray-200 text-sm py-2 rounded-lg transition"
+              >
+                Edit
+              </button>
 
-</div>
-            </div>)
-        
-})}
+              <button
+                onClick={() => handleDelete(p._id)}
+                className="flex-1  bg-red-500 hover:bg-red-600 text-white text-sm py-2 rounded-lg transition"
+              >
+                Delete
+              </button>
+
+            </div>
+          </div>)
+
+        })}
       </div>
     </div>
   );
