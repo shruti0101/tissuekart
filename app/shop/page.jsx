@@ -217,7 +217,7 @@ setFiltered(list);
 
                   <div className="relative group flex justify-center items-center mb-4 h-h-[150px] overflow-hidden">
                     <Image
-                      src={product.images?.[0] || "/placeholder.png"}
+                      src={product.images?.[0].url || "/placeholder.png"}
                       alt={product.name}
                       width={160}
                       height={150}
