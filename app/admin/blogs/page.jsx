@@ -104,7 +104,7 @@ export default function page() {
                     <h3 className="text-lg font-semibold text-orange-400 mb-2">
                       {blog.title}
                     </h3>
-s
+
                     {/* DESCRIPTION */}
                     <p
                       className="text-gray-400 text-sm mb-3  line-clamp-2"

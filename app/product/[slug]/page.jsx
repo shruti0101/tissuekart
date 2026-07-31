@@ -64,7 +64,7 @@ export default function ProductPage() {
   }, [product]);
 
   if (loading) return <p className="text-center py-20">Loading...</p>;
-  if (!product) return <p className="text-center py-20">Product not foundedee </p>;
+  if (!product) return <p className="text-center py-20">Product not found </p>;
 
   const inWishlist = wishlist.some((item) => item._id === product._id);
 
@@ -122,7 +122,7 @@ const handleWishlist = () => {
     <div>
       <div className="shadow-sm rounded-md overflow-hidden  w h-[300px] sm:h-[400px] md:h-[500px] lg:h-[610px]  flex items-center justify-center">
         <Image
-          src={activeImage}
+          src={activeImage?.url}
           alt={product.name}
           width={1000}
           height={800}
@@ -141,7 +141,7 @@ const handleWishlist = () => {
           : "border-yellow-400 hover:border-yellow-500"
       }`}
     >
-      <Image src={img} width={60} height={60} alt="" />
+      <Image src={img?.url} width={60} height={60} alt="" />
     </div>
   ))}
 </div>

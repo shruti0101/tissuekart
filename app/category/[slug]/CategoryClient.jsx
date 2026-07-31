@@ -11,6 +11,8 @@ export default function CategoryPage() {
   const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
+
+  console.log(products);
 const addToCart = useCartStore((state) => state.addToCart);
   useEffect(() => {
     if (!slug) return;
@@ -112,7 +114,7 @@ const addToCart = useCartStore((state) => state.addToCart);
               <div className="relative group flex justify-center items-center mb-3 sm:mb-5 h-[150px] md:h-[190px] overflow-hidden">
 
                 <Image
-                  src={product.images?.[0] || "/placeholder.png"}
+                  src={product.images?.[0]?.url || "/placeholder.png"}
                   alt={product.name}
                   width={190}
                   height={150}

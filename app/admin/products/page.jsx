@@ -13,6 +13,9 @@ export default function ProductList() {
   const [categories, setCategories] = useState([]);
   const [uploading, setUploading] = useState(false);
 
+  const [previewImages, setPreviewImages] = useState([]);
+const [files, setFiles] = useState([]);
+
   useEffect(() => {
     fetchProducts();
     fetch("/api/categories").then(res => res.json()).then(setCategories);
@@ -23,6 +26,8 @@ export default function ProductList() {
     const data = await res.json();
     setProducts(data);
   };
+
+  console.log(products);
 
   // ✅ DELETE
 const handleDelete = async (id) => {
@@ -64,37 +69,17 @@ const handleDelete = async (id) => {
 };
 
   // ✅ IMAGE UPLOAD
-  const uploadImages = async (files) => {
-    setUploading(true);
-    const toastId = toast.loading("Uploading...");
+ const handleImageChange = (e) => {
+  const selectedFiles = Array.from(e.target.files);
 
-    let urls = [];
+  setFiles(selectedFiles);
 
-    for (let file of files) {
-      const data = new FormData();
-      data.append("file", file);
-      data.append("upload_preset", process.env.NEXT_PUBLIC_UPLOAD_PRESET);
+  const previews = selectedFiles.map((file) =>
+    URL.createObjectURL(file)
+  );
 
-    
-      data.append("folder", "Tissuekartproducts");
-
-      const res = await fetch(
-        `https://api.cloudinary.com/v1_1/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/upload`,
-        { method: "POST", body: data }
-      );
-
-      const result = await res.json();
-      urls.push(result.secure_url);
-    }
-
-    setEditing((prev) => ({
-      ...prev,
-      images: [...(prev.images || []), ...urls],
-    }));
-
-    setUploading(false);
-    toast.success("Uploaded", { id: toastId });
-  };
+  setPreviewImages(previews);
+};
 
   // ✅ SPEC FUNCTIONS
   const addSpec = () => {
@@ -118,43 +103,69 @@ const handleDelete = async (id) => {
   };
 
   //  UPDATE
-const handleUpdate = async () => {
-  const toastId = toast.loading("Updating...");
-  const token = localStorage.getItem("token");
-
+const updateProduct = async () => {
   try {
-    const payload = {
-      ...editing,
-      category:
-        typeof editing.category === "object"
-          ? editing.category._id
-          : editing.category, // ✅ FIX
-    };
+    const formData = new FormData();
+
+    // ✅ text fields
+    formData.append("name", editing.name);
+    formData.append("price", editing.price);
+    formData.append("oldPrice", editing.oldPrice || "");
+    formData.append("category", editing.category);
+    formData.append("description", editing.description || "");
+    formData.append("longdescription", editing.longdescription || "");
+    formData.append("stock", editing.stock);
+
+    formData.append(
+      "features",
+      JSON.stringify(editing.features || [])
+    );
+
+    formData.append(
+      "specifications",
+      JSON.stringify(editing.specifications || [])
+    );
+
+    // ✅ send remaining OLD images
+    formData.append(
+      "oldImages",
+      JSON.stringify(editing.images || [])
+    );
+
+    // ✅ send NEW images
+    files.forEach((file) => {
+      formData.append("newImages", file);
+    });
+    console.log(editing._id);
 
     const res = await fetch(`/api/products/update/${editing._id}`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify(payload),
-    });
+  method: "PUT",
+  body: formData, 
+});
 
     const data = await res.json();
 
-    if (!res.ok) {
-      toast.error(data.msg || "Update failed ❌", { id: toastId });
-      return;
-    }
+    if (!res.ok) throw new Error(data.message);
 
-    setEditing(null);
-    fetchProducts();
+    alert("Updated Successfully ✅");
 
-    toast.success("Updated ✅", { id: toastId });
   } catch (err) {
     console.error(err);
-    toast.error("Error updating ❌", { id: toastId });
+    alert("Update Failed ❌");
   }
+};
+
+const removeOldImage = (index) => {
+  const updated = editing.images.filter((_, i) => i !== index);
+  setEditing({ ...editing, images: updated });
+};
+
+const removeNewImage = (index) => {
+  const updatedFiles = files.filter((_, i) => i !== index);
+  const updatedPreview = previewImages.filter((_, i) => i !== index);
+
+  setFiles(updatedFiles);
+  setPreviewImages(updatedPreview);
 };
 
   return (
@@ -303,35 +314,51 @@ const handleUpdate = async () => {
             </div>
 
             {/* IMAGES */}
-            <div className="bg-white p-6 rounded-2xl shadow-sm">
-              <input
-                type="file"
-                multiple
-                onChange={(e) => uploadImages([...e.target.files])}
-              />
+          <div className="bg-white p-6 rounded-2xl shadow-sm">
+  <input type="file" multiple onChange={handleImageChange} />
 
-              <div className="grid grid-cols-3 gap-2 mt-3">
-                {editing.images?.map((img, i) => (
-                  <div key={i} className="relative">
-                    <img src={img} className="h-20 w-full object-cover" />
-                    <button
-                      onClick={() =>
-                        setEditing({
-                          ...editing,
-                          images: editing.images.filter((_, idx) => idx !== i),
-                        })
-                      }
-                      className="absolute top-1 right-1 bg-black text-white text-xs"
-                    >
-                      ✕
-                    </button>
-                  </div>
-                ))}
-              </div>
-            </div>
+  <div className="flex flex-wrap gap-3 mt-4">
+
+    {/* ✅ OLD IMAGES */}
+    {editing?.images?.map((img, i) => (
+      <div key={i} className="relative">
+        <img
+          src={img.url}
+          className="w-24 h-24 object-cover rounded"
+        />
+
+        {/* ❌ REMOVE OLD */}
+        <button
+          onClick={() => removeOldImage(i)}
+          className="absolute top-0 right-0 bg-red-500 text-white text-xs px-1 rounded"
+        >
+          ✕
+        </button>
+      </div>
+    ))}
+
+    {/* ✅ NEW PREVIEW IMAGES */}
+    {previewImages.map((src, i) => (
+      <div key={i} className="relative">
+        <img
+          src={src}
+          className="w-24 h-24 object-cover rounded"
+        />
+
+        {/* ❌ REMOVE NEW */}
+        <button
+          onClick={() => removeNewImage(i)}
+          className="absolute top-0 right-0 bg-black text-white text-xs px-1 rounded"
+        >
+          ✕
+        </button>
+      </div>
+    ))}
+  </div>
+</div>
 
             <button
-              onClick={handleUpdate}
+               onClick={updateProduct}
               className="w-full bg-black text-white py-3 rounded-xl"
             >
               Update Product
@@ -344,10 +371,14 @@ const handleUpdate = async () => {
 
       {/* PRODUCT GRID */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-5">
-        {products.map((p) => (
-          <div key={p._id} className="bg-white p-3 rounded-xl shadow-sm">
+        {products.map((p) => {
+          const imageUrl =
+  p?.images && p.images.length > 0
+    ? p.images[0].url
+    : "/no-image.png";
+          return ( <div key={p._id} className="bg-white p-3 rounded-xl shadow-sm">
             <img
-              src={p.image || p.images?.[0]}
+              src={imageUrl}
               className="w-full h-32 object-cover rounded"
             />
             <h3 className="mt-2 text-sm">{p.name}</h3>
@@ -370,9 +401,9 @@ const handleUpdate = async () => {
   </button>
 
 </div>
-            </div>
+            </div>)
         
-        ))}
+})}
       </div>
     </div>
   );

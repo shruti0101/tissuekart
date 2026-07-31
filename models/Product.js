@@ -24,7 +24,12 @@ const ProductSchema = new mongoose.Schema({
     }
   ],
 
-  images: [String],
+  images: [
+    {
+    url: String,
+    key: String,
+    }
+  ],
 
   category: {
     type: mongoose.Schema.Types.ObjectId,

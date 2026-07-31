@@ -80,7 +80,7 @@ export default function WishlistPage() {
                 <div className="relative">
 
               <img
-                src={item.images[0]}
+                src={item?.images[0].url}
                 className=" rounded-lg object-cover border"
               />
 

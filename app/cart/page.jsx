@@ -53,7 +53,7 @@ export default function CartPage() {
                 >
 
                   <img
-                    src={item.images[0]}
+                    src={item?.images[0].url}
                     className="w-[100px] h-[100px] rounded-lg object-cover border"
                   />
 
