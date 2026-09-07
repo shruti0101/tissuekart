@@ -7,7 +7,9 @@ import { uploadToR2 } from "@/utils/uploadToR2";
 export async function PUT(req, { params }) {
   try {
     await connectDB();
+
     const { id } = await params;
+
     if (!id || !mongoose.Types.ObjectId.isValid(id)) {
       return Response.json(
         { msg: "Invalid product id" },
@@ -16,6 +18,10 @@ export async function PUT(req, { params }) {
     }
 
     const formData = await req.formData();
+
+    // =========================
+    // SLUG GENERATOR
+    // =========================
     const generateSlug = (text = "") => {
       return text
         .toLowerCase()
@@ -25,106 +31,195 @@ export async function PUT(req, { params }) {
         .replace(/-+/g, "-");
     };
 
+    // =========================
     // BASIC DATA
+    // =========================
     const name = formData.get("name") || "";
     const slug = generateSlug(name);
+
     const price = Number(formData.get("price") || 0);
     const oldPrice = Number(formData.get("oldPrice") || 0);
+
     const description = formData.get("description") || "";
-    const longdescription = formData.get("longdescription") || "";
+    const longdescription =
+      formData.get("longdescription") || "";
+
+    // =========================
+    // SEO DATA
+    // =========================
+    const metaTitle = formData.get("metaTitle") || "";
+    const metaDescription =
+      formData.get("metaDescription") || "";
+
+    // =========================
+    // CATEGORY
+    // =========================
     let category = formData.get("category");
+
     console.log("id:", id);
     console.log("raw category:", formData.get("category"));
     console.log("parsed category:", category);
+
     if (category) {
       try {
         const parsed = JSON.parse(category);
+
         if (parsed?._id) {
           category = parsed._id;
         }
-      } catch {
-      }
+      } catch {}
     }
 
-    if (typeof category === "string" && category.includes("[object Object]")) {
+    if (
+      typeof category === "string" &&
+      category.includes("[object Object]")
+    ) {
       return Response.json(
-        { msg: "Category object sent. Send only category._id" },
+        {
+          msg: "Category object sent. Send only category._id",
+        },
         { status: 400 }
       );
-
     }
 
-    if (category && !mongoose.Types.ObjectId.isValid(category)) {
+    if (
+      category &&
+      !mongoose.Types.ObjectId.isValid(category)
+    ) {
       return Response.json(
-        { msg: "Invalid category id", received: category },
+        {
+          msg: "Invalid category id",
+          received: category,
+        },
         { status: 400 }
       );
-
     }
 
+    // =========================
+    // OTHER DATA
+    // =========================
     const stock = formData.get("stock") === "true";
-    const features = JSON.parse(formData.get("features") || "[]");
-    const specifications = JSON.parse(formData.get("specifications") || "[]");
+
+    const features = JSON.parse(
+      formData.get("features") || "[]"
+    );
+
+    const specifications = JSON.parse(
+      formData.get("specifications") || "[]"
+    );
+
+    // =========================
+    // FIND EXISTING PRODUCT
+    // =========================
     const existingProduct = await Product.findById(id);
+
     if (!existingProduct) {
-      return Response.json({ msg: "Product not found" }, { status: 404 });
+      return Response.json(
+        { msg: "Product not found" },
+        { status: 404 }
+      );
     }
 
-    const existingImages = (existingProduct.images || []).map((img) => {
+    // =========================
+    // EXISTING IMAGES
+    // =========================
+    const existingImages = (
+      existingProduct.images || []
+    ).map((img) => {
       if (typeof img === "string") {
-        return { url: img, key: null };
+        return {
+          url: img,
+          key: null,
+        };
       }
+
       return img;
     });
 
-    let oldImages = JSON.parse(formData.get("oldImages") || "[]");
+    // =========================
+    // OLD IMAGES FROM FORM
+    // =========================
+    let oldImages = JSON.parse(
+      formData.get("oldImages") || "[]"
+    );
+
     oldImages = oldImages.map((img) => {
       if (typeof img === "string") {
-        return { url: img, key: null };
+        return {
+          url: img,
+          key: null,
+        };
       }
 
       return img;
     });
 
+    // =========================
     // UPLOAD NEW R2 IMAGES
+    // =========================
     const files = formData.getAll("newImages");
+
     const uploadedImages = [];
+
     for (const image of files) {
       if (!image || image.size === 0) continue;
-      const buffer = Buffer.from(await image.arrayBuffer());
-      const fileName = `${Date.now()}-${Math.random().toString(36).slice(2)}-${image.name}`;
+
+      const buffer = Buffer.from(
+        await image.arrayBuffer()
+      );
+
+      const fileName = `${Date.now()}-${Math.random()
+        .toString(36)
+        .slice(2)}-${image.name}`;
 
       const uploaded = await uploadToR2({
         file: buffer,
         folder: "tissueKart/products",
         fileName,
-        contentType: image.type
+        contentType: image.type,
       });
 
       uploadedImages.push({
         url: uploaded.url,
-        key: uploaded.key
+        key: uploaded.key,
       });
     }
 
+    // =========================
     // FINAL IMAGES
-    const finalImages = [...oldImages, ...uploadedImages];
+    // =========================
+    const finalImages = [
+      ...oldImages,
+      ...uploadedImages,
+    ];
 
+    // =========================
     // DELETE REMOVED R2 IMAGES
-    const removedImages = existingImages.filter(oldImg => {
-      if (!oldImg?.key) return false;
-      return !finalImages.some(img => img.key === oldImg.key);
-    });
+    // =========================
+    const removedImages = existingImages.filter(
+      (oldImg) => {
+        if (!oldImg?.key) return false;
+
+        return !finalImages.some(
+          (img) => img.key === oldImg.key
+        );
+      }
+    );
 
     for (const img of removedImages) {
       try {
         await deleteFromR2(img.key);
       } catch (error) {
-        console.log("R2 delete error:", error.message);
+        console.log(
+          "R2 delete error:",
+          error.message
+        );
       }
     }
 
-    // UPDATE
+    // =========================
+    // UPDATE PRODUCT
+    // =========================
     const updated = await Product.findByIdAndUpdate(
       id,
       {
@@ -132,24 +227,34 @@ export async function PUT(req, { params }) {
         slug,
         price,
         oldPrice,
+
         description,
         longdescription,
+
+        // SEO
+        metaTitle,
+        metaDescription,
+
         features,
         specifications,
         category,
         stock,
-        images: finalImages
+        images: finalImages,
       },
-
-      { returnDocument: "after", runValidators: true }
+      {
+        returnDocument: "after",
+        runValidators: true,
+      }
     );
 
     return Response.json(updated);
-  }
-  catch (error) {
+  } catch (error) {
     console.error("UPDATE ERROR:", error);
+
     return Response.json(
-      { msg: error.message },
+      {
+        msg: error.message,
+      },
       { status: 500 }
     );
   }

@@ -29,11 +29,21 @@ export async function POST(req) {
     const oldPrice = formData.get("oldPrice");
     const description = formData.get("description");
     const longdescription = formData.get("longdescription");
+
+    // 🔎 SEO META DATA
+    const metaTitle = formData.get("metaTitle") || "";
+    const metaDescription = formData.get("metaDescription") || "";
+
     const stock = formData.get("stock") === "true";
     const category = formData.get("category");
 
-    const features = JSON.parse(formData.get("features") || "[]");
-    const specifications = JSON.parse(formData.get("specifications") || "[]");
+    const features = JSON.parse(
+      formData.get("features") || "[]"
+    );
+
+    const specifications = JSON.parse(
+      formData.get("specifications") || "[]"
+    );
 
     // ✅ SLUG
     const slug = name
@@ -49,7 +59,6 @@ export async function POST(req) {
     for (const image of files) {
       if (!image || image.size === 0) continue;
 
-      // 🔥 SAME AS YOUR LOGIC
       const bytes = await image.arrayBuffer();
       const buffer = Buffer.from(bytes);
 
@@ -74,21 +83,31 @@ export async function POST(req) {
       slug,
       price: Number(price),
       oldPrice: Number(oldPrice || 0),
+
       description,
       longdescription,
+
+      // 🔎 SEO
+      metaTitle,
+      metaDescription,
+
       features,
       stock,
       category,
       specifications,
-      images, // ✅ stored here
+      images,
     });
 
     return Response.json(product);
   } catch (err) {
     console.error(err);
+
     return Response.json(
-      { msg: "Server error", error: err.message },
-      { status: 500 },
+      {
+        msg: "Server error",
+        error: err.message,
+      },
+      { status: 500 }
     );
   }
 }
