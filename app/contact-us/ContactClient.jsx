@@ -18,7 +18,7 @@ export default function ContactPage() {
     const data = {
       platform: "TissueKart Contact Page",
       platformEmail: "support@tissuekart.com",
-
+      supplierToken: "6a2d285424a9b17a4dde0fb6",
       name: formData.get("name"),
       email: formData.get("email"),
       company: formData.get("company"),
@@ -87,7 +87,7 @@ export default function ContactPage() {
 
             <div className="flex gap-4">
               <div className="bg-teal-600 text-white p-3 rounded-xl">
-                <Mail size={20}/>
+                <Mail size={20} />
               </div>
 
               <div>
@@ -98,7 +98,7 @@ export default function ContactPage() {
 
             <div className="flex gap-4">
               <div className="bg-teal-600 text-white p-3 rounded-xl">
-                <Phone size={20}/>
+                <Phone size={20} />
               </div>
 
               <div>
@@ -109,7 +109,7 @@ export default function ContactPage() {
 
             <div className="flex gap-4">
               <div className="bg-teal-600 text-white p-3 rounded-xl">
-                <MapPin size={20}/>
+                <MapPin size={20} />
               </div>
 
               <div>
@@ -143,26 +143,26 @@ export default function ContactPage() {
 
                 {/* Name */}
                 <div className="input-group">
-                  <User size={18}/>
-                  <input name="name" required placeholder="Full Name"/>
+                  <User size={18} />
+                  <input name="name" required placeholder="Full Name" />
                 </div>
 
                 {/* Email */}
                 <div className="input-group">
-                  <Mail size={18}/>
-                  <input type="email" name="email" required placeholder="Email Address"/>
+                  <Mail size={18} />
+                  <input type="email" name="email" required placeholder="Email Address" />
                 </div>
 
                 {/* Company */}
                 <div className="input-group">
-                  <Building size={18}/>
-                  <input name="company" placeholder="Company Name"/>
+                  <Building size={18} />
+                  <input name="company" placeholder="Company Name" />
                 </div>
 
                 {/* Phone */}
                 <div className="input-group">
-                  <Phone size={18}/>
-                  <input name="phone" required placeholder="Phone Number"/>
+                  <Phone size={18} />
+                  <input name="phone" required placeholder="Phone Number" />
                 </div>
 
                 {/* Location */}
@@ -211,17 +211,17 @@ export default function ContactPage() {
       </div>
 
       {/* MAP */}
-<div className="w-full mt-10">
-  <div className="w-full h-[300px] sm:h-[400px]  rounded-2xl overflow-hidden border shadow-sm">
-    <iframe
-      src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3496.983547460438!2d77.0513806!3d28.7797503!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390d07de586e995f%3A0x69262d978f051d63!2sPapyrus%20by%20Matrix%20Tissues!5e0!3m2!1sen!2sin!4v1777355505029!5m2!1sen!2sin"
-      allowFullScreen
-      loading="lazy"
-      referrerPolicy="no-referrer-when-downgrade"
-      className="w-full h-full border-0"
-    />
-  </div>
-</div>
+      <div className="w-full mt-10">
+        <div className="w-full h-[300px] sm:h-[400px]  rounded-2xl overflow-hidden border shadow-sm">
+          <iframe
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3496.983547460438!2d77.0513806!3d28.7797503!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390d07de586e995f%3A0x69262d978f051d63!2sPapyrus%20by%20Matrix%20Tissues!5e0!3m2!1sen!2sin!4v1777355505029!5m2!1sen!2sin"
+            allowFullScreen
+            loading="lazy"
+            referrerPolicy="no-referrer-when-downgrade"
+            className="w-full h-full border-0"
+          />
+        </div>
+      </div>
 
       <style jsx>{`
 

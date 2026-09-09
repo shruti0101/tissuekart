@@ -6,8 +6,8 @@ import { toast } from "react-toastify"
 
 export default function BulkEnquiryForm() {
 
-  const [loading,setLoading] = useState(false)
-  const [submitted,setSubmitted] = useState(false)
+  const [loading, setLoading] = useState(false)
+  const [submitted, setSubmitted] = useState(false)
 
   const handleSubmit = async (e) => {
 
@@ -16,7 +16,7 @@ export default function BulkEnquiryForm() {
     const formData = new FormData(e.target)
 
     const data = {
-
+      supplierToken: "6a2d285424a9b17a4dde0fb6",
       platform: "Tissuekart Bulk Enquiry",
       platformEmail: "matrixtissues@gmail.com",
 
@@ -40,21 +40,21 @@ export default function BulkEnquiryForm() {
       const res = await axios.post(
         "https://brandbnalo.com/api/form/add",
         data,
-        { validateStatus: (status)=>status>=200 && status<500 }
+        { validateStatus: (status) => status >= 200 && status < 500 }
       )
 
-      if(res.status >= 200 && res.status < 300){
+      if (res.status >= 200 && res.status < 300) {
 
         setSubmitted(true)
         e.target.reset()
 
-        setTimeout(()=>{
+        setTimeout(() => {
           setSubmitted(false)
-        },3000)
+        }, 3000)
 
       }
 
-    } catch(err){
+    } catch (err) {
 
       toast.error("Something went wrong")
 
@@ -86,107 +86,107 @@ export default function BulkEnquiryForm() {
 
         ) : (
 
-        <>
-        <h2 className="text-3xl font-semibold mb-2 text-center">
-          Bulk Enquiry
-        </h2>
+          <>
+            <h2 className="text-3xl font-semibold mb-2 text-center">
+              Bulk Enquiry
+            </h2>
 
-        <p className="text-gray-500 text-center mb-10">
-          Fill the form below and our team will contact you shortly.
-        </p>
+            <p className="text-gray-500 text-center mb-10">
+              Fill the form below and our team will contact you shortly.
+            </p>
 
-        <form onSubmit={handleSubmit} className="space-y-5">
+            <form onSubmit={handleSubmit} className="space-y-5">
 
-          {/* Name */}
-          <div>
-            <label className="text-sm font-medium">Name *</label>
-            <input
-              type="text"
-              name="name"
-              required
-              placeholder="Enter your full name"
-              className="input"
-            />
-          </div>
+              {/* Name */}
+              <div>
+                <label className="text-sm font-medium">Name *</label>
+                <input
+                  type="text"
+                  name="name"
+                  required
+                  placeholder="Enter your full name"
+                  className="input"
+                />
+              </div>
 
-          {/* Email */}
-          <div>
-            <label className="text-sm font-medium">Email *</label>
-            <input
-              type="email"
-              name="email"
-              required
-              placeholder="Enter your email address"
-              className="input"
-            />
-          </div>
+              {/* Email */}
+              <div>
+                <label className="text-sm font-medium">Email *</label>
+                <input
+                  type="email"
+                  name="email"
+                  required
+                  placeholder="Enter your email address"
+                  className="input"
+                />
+              </div>
 
-          {/* Phone */}
-          <div>
-            <label className="text-sm font-medium">Phone *</label>
-            <input
-              type="tel"
-              name="phone"
-              required
-              placeholder="Enter your phone number"
-              className="input"
-            />
-          </div>
+              {/* Phone */}
+              <div>
+                <label className="text-sm font-medium">Phone *</label>
+                <input
+                  type="tel"
+                  name="phone"
+                  required
+                  placeholder="Enter your phone number"
+                  className="input"
+                />
+              </div>
 
-          {/* Company */}
-          <div>
-            <label className="text-sm font-medium">Company</label>
-            <input
-              type="text"
-              name="company"
-              placeholder="Your company name (optional)"
-              className="input"
-            />
-          </div>
+              {/* Company */}
+              <div>
+                <label className="text-sm font-medium">Company</label>
+                <input
+                  type="text"
+                  name="company"
+                  placeholder="Your company name (optional)"
+                  className="input"
+                />
+              </div>
 
-          {/* Product Category */}
-          <div>
-            <label className="text-sm font-medium">
-              Product Category *
-            </label>
+              {/* Product Category */}
+              <div>
+                <label className="text-sm font-medium">
+                  Product Category *
+                </label>
 
-            <select
-              name="category"
-              required
-              className="input"
-            >
-              <option value="">Select Category</option>
-              <option>Face Tissue</option>
-              <option>Paper Napkin</option>
-              <option>Kitchen Towel</option>
-              <option>Toilet Roll</option>
-              <option>Butter Paper Roll</option>
-              <option>Cake Box</option>
-            </select>
-          </div>
+                <select
+                  name="category"
+                  required
+                  className="input"
+                >
+                  <option value="">Select Category</option>
+                  <option>Face Tissue</option>
+                  <option>Paper Napkin</option>
+                  <option>Kitchen Towel</option>
+                  <option>Toilet Roll</option>
+                  <option>Butter Paper Roll</option>
+                  <option>Cake Box</option>
+                </select>
+              </div>
 
-          {/* Message */}
-          <div>
-            <label className="text-sm font-medium">Message</label>
-            <textarea
-              name="message"
-              rows="4"
-              placeholder="Write your enquiry"
-              className="input resize-none"
-            />
-          </div>
+              {/* Message */}
+              <div>
+                <label className="text-sm font-medium">Message</label>
+                <textarea
+                  name="message"
+                  rows="4"
+                  placeholder="Write your enquiry"
+                  className="input resize-none"
+                />
+              </div>
 
-          {/* Submit */}
-          <button
-            type="submit"
-            disabled={loading}
-            className="w-full bg-[#129c97] text-white py-3 rounded-xl font-medium hover:bg-[#0f7d79] transition"
-          >
-            {loading ? "Submitting..." : "Submit Enquiry"}
-          </button>
+              {/* Submit */}
+              <button
+                type="submit"
+                disabled={loading}
+                className="w-full bg-[#129c97] text-white py-3 rounded-xl font-medium hover:bg-[#0f7d79] transition"
+              >
+                {loading ? "Submitting..." : "Submit Enquiry"}
+              </button>
 
-        </form>
-        </>
+            </form>
+          </>
         )}
 
       </div>

@@ -2,7 +2,7 @@
 import React from "react";
 import Image from "next/image";
 import axios from "axios";
-import {toast } from "react-hot-toast"
+import { toast } from "react-hot-toast"
 
 export default function PopupForm({ isOpen, onClose }) {
   if (!isOpen) return null;
@@ -16,7 +16,8 @@ export default function PopupForm({ isOpen, onClose }) {
     const formData = new FormData(e.target);
 
     const data = {
-      platform: "tissuekart landing page Form",
+      supplierToken: "6a2d285424a9b17a4dde0fb6",
+      platform: "Tissuekart landing page Form",
       platformEmail: "matrixtissues@gmail.com",
       name: formData.get("name"),
       email: formData.get("email"),
@@ -32,7 +33,7 @@ export default function PopupForm({ isOpen, onClose }) {
 
     try {
       await axios.post("https://brandbnalo.com/api/form/add", data);
-toast.success("Enquiry sent! We'll get back to you soon.");
+      toast.success("Enquiry sent! We'll get back to you soon.");
       e.target.reset();
       handleClose(); // close after submit
     } catch (err) {
@@ -78,7 +79,7 @@ toast.success("Enquiry sent! We'll get back to you soon.");
             <form onSubmit={handleSubmit} className="space-y-3 mt-5">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <input type="text" name="name" required placeholder="Full Name*" className="input" />
-                <input type="tel" maxLength={10} minLength={10 }  name="phone" required placeholder="Mobile Number*" className="input" />
+                <input type="tel" maxLength={10} minLength={10} name="phone" required placeholder="Mobile Number*" className="input" />
               </div>
 
               <input type="email" name="email" required placeholder="Email Address*" className="input" />
